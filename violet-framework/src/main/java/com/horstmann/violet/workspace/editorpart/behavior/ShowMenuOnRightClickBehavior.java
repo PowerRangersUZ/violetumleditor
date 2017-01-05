@@ -74,16 +74,18 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
      */
     private JPopupMenu fillMenu(JPopupMenu aPopupMenu)
     {
-    	/*select.addActionListener(new ActionListener(){
-    		public void actionPerformed(ActionEvent event){
-                IEditorPartBehaviorManager behaviorManager = ShowMenuOnRightClickBehavior.this.editorPart.getBehaviorManager();
-                
+    	select.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent event)
+    		{
+    			IEditorPartBehaviorManager behaviorManager = ShowMenuOnRightClickBehavior.this.editorPart.getBehaviorManager();
+    			List<SelectSelectToolBehavior> found = behaviorManager.getBehaviors(SelectSelectToolBehavior.class);
+    			
                 if (found.size() != 1) {
                     return;
                 }
-                found.get(0).select();
+                found.get(0).selectSelectTool();
     		}
-    	}); */
+    	}); 
     	aPopupMenu.add(select);
     	
         undo.addActionListener(new ActionListener()
