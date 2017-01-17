@@ -49,6 +49,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjecto
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.language.LanguageManager;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.framework.theme.ITheme;
 import com.horstmann.violet.framework.theme.ThemeManager;
@@ -75,6 +76,7 @@ public class MainFrame extends JFrame
      */
     public MainFrame()
     {
+        loadconfig();
         BeanInjector.getInjector().inject(this);
         ResourceBundleInjector.getInjector().inject(this);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -85,6 +87,8 @@ public class MainFrame extends JFrame
         getContentPane().add(this.getMainPanel());
         startAutoSave();
     }
+
+    private void loadconfig() {new LanguageManager();}
 
     /**
      * Sets initial size on startup
@@ -121,6 +125,7 @@ public class MainFrame extends JFrame
         menuBar.add(menuFactory.getViewMenu(this));
         menuBar.add(menuFactory.getDocumentMenu(this));
         menuBar.add(menuFactory.getHelpMenu(this));
+        menuBar.add(menuFactory.getSettingMenu(this));
         setJMenuBar(menuBar);
     }
     
