@@ -117,7 +117,7 @@ public class UMLEditorApplication
 
         if (settingProperties.IsPropertiesFileExist() )  {
             settingProperties.reoladProperties();
-            if (!settingProperties.getLangauge().equals("")) {
+            if (settingProperties.getLangauge()!=null) {
                 Locale locale = new Locale(settingProperties.getLangauge());
 
                 Locale.setDefault(locale);
