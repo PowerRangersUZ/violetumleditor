@@ -29,6 +29,7 @@ import javax.swing.*;
 import com.horstmann.violet.application.gui.*;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.language.Language;
 import com.horstmann.violet.framework.language.LanguageManager;
 
 
@@ -63,12 +64,10 @@ public class SettingMenu extends JMenu {
 
     private void createMenu() {
         this.add(settingItemMenuLanguage);
-
+    
         languageManager.loadAllAvibleLang();
-
-        for (int x = 0; x < languageManager.getLanguageArrayList().size(); x++) {
-            final int index = x;
-            JMenuItem menuLangSelect = new JMenuItem(languageManager.getLanguageArrayList().get(x).name);
+        for (final Language lang : languageManager.getLanguageArrayList()) {
+            JMenuItem menuLangSelect = new JMenuItem(lang.getName());
             settingItemMenuLanguage.add(menuLangSelect);
             menuLangSelect.addActionListener(new ActionListener() {
                                                  @Override
@@ -77,7 +76,7 @@ public class SettingMenu extends JMenu {
                                                          settingPropertis.reoladProperties();
                                                      }
 
-                                                     settingPropertis.setLangauge(languageManager.getLanguageArrayList().get(index).shortcut);
+                                                     settingPropertis.setLangauge(lang.getShortcut());
                                                      settingPropertis.savePropertiesToFile();
                                                      languageChangeAlert();
                                                  }
