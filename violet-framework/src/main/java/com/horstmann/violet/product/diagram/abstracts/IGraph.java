@@ -93,7 +93,6 @@ public interface IGraph
      */
     public abstract INode findNode(Id id);
 
-
     /**
      * Finds a node_old containing the given point.
      * 
@@ -121,10 +120,18 @@ public interface IGraph
     public abstract IEdge findEdge(Point2D p);
 
     /**
+     * Finds an edge with given nodes.
+     * @return an edge containing those nodes, or null if no edges contain them.
+     */
+
+    public abstract IEdge getEdgeWithNodes(INode startNode, INode endNode);
+
+    /**
      * Draws the graph
      * 
      * @param g2 the graphics context
      */
+
     public abstract void draw(Graphics2D g2);
 
 

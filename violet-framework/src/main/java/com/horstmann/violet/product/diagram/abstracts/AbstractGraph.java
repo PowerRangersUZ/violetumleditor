@@ -108,7 +108,15 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         }
         return null;
     }
-    
+
+
+    public IEdge getEdgeWithNodes(INode startNode, INode endNode){
+        for(IEdge edge : edges){
+            if (edge.getStartNode() == startNode && edge.getEndNode() == endNode)
+                return edge;
+        }
+        return null;
+    }
     
 
 

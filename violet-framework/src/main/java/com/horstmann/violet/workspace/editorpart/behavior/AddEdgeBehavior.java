@@ -204,9 +204,11 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
             {
                 INode startNode = graph.findNode(startPoint);
                 INode endNode = graph.findNode(endPoint);
+
                 Point2D relativeStartPoint = null;
                 Point2D relativeEndPoint = null;
                 Point2D[] transitionPointsAsArray = this.transitionPoints.toArray(new Point2D[this.transitionPoints.size()]);
+
                 if (startNode != null)
                 {
                     Point2D startNodeLocationOnGraph = startNode.getLocationOnGraph();
@@ -214,6 +216,7 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
                     double relativeStartY = startPoint.getY() - startNodeLocationOnGraph.getY();
                     relativeStartPoint = new Point2D.Double(relativeStartX, relativeStartY);
                 }
+
                 if (endNode != null)
                 {
                     Point2D endNodeLocationOnGraph = endNode.getLocationOnGraph();
@@ -221,6 +224,12 @@ public class AddEdgeBehavior extends AbstractEditorPartBehavior
                     double relativeEndY = endPoint.getY() - endNodeLocationOnGraph.getY();
                     relativeEndPoint = new Point2D.Double(relativeEndX, relativeEndY);
                 }
+
+                IEdge ie = graph.getEdgeWithNodes(startNode, endNode);
+                if(ie != null) {
+                    graph.removeEdge(ie);
+                }
+
                 if (graph.connect(newEdge, startNode, relativeStartPoint, endNode, relativeEndPoint, transitionPointsAsArray))
                 {
                     newEdge.incrementRevision();
