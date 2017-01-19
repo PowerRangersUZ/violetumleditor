@@ -76,7 +76,6 @@ public class MainFrame extends JFrame
      */
     public MainFrame()
     {
-        loadconfig();
         BeanInjector.getInjector().inject(this);
         ResourceBundleInjector.getInjector().inject(this);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -87,8 +86,6 @@ public class MainFrame extends JFrame
         getContentPane().add(this.getMainPanel());
         startAutoSave();
     }
-
-    private void loadconfig() {new LanguageManager();}
 
     /**
      * Sets initial size on startup
