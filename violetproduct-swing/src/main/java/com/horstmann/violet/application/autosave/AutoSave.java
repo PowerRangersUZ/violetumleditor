@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 import javax.swing.*;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -29,6 +28,7 @@ import com.horstmann.violet.workspace.Workspace;
  * @author Pawel Majka
  */
 
+
 public class AutoSave implements ActionListener {
 
 	@ResourceBundleBean(key="dialog.autosave.title")
@@ -47,45 +47,115 @@ public class AutoSave implements ActionListener {
 	private final int saveInterval = 60 * second;
 	private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML";
 
+	/**
+	 * Constructor Autosave
+	 *  @param mainFrame where is attached this menu
+	 */
 	public AutoSave(MainFrame mainFrame) {
 		BeanInjector.getInjector().inject(this);
 
 		if (mainFrame != null) {
 			this.mainFrame = mainFrame;
 			if (createVioletDirectory()) {
-				openAutoSaveProjects();
+				openAutoSaveDirectory();
 				initializeTimer();
 			}
 		}
 	}
 
+	/**
+	 *  Create Violet directory
+	 * @return true if path was created
+	 */
 	private boolean createVioletDirectory() {
 		File directory = new File(autoSaveDirectory);
-		if (directory.isDirectory()) {
-			return true;
-		} else {
-			return directory.mkdir();
-		}
+		return directory.isDirectory() || directory.mkdir();
+
+
 	}
 
-	private void openAutoSaveProjects() {
+	/**
+	 *  Get autosave file in direcotry
+	 */
+	private void openAutoSaveDirectory() {
 		File directory = new File(autoSaveDirectory);
+		emptyFileRemove();
 		if (directory.isDirectory()) {
 			File[] files = directory.listFiles();
 			if (files.length == 0)
 				return;
+
 			createSaveRecoverFrame();
+		//	AutoSaveRecover aa= new AutoSaveRecover(mainFrame);// not work yet
 
 		}
 	}
 
+	/**
+	 *  Remove Violet empty saves
+	 */
+	private void emptyFileRemove() {
+		File directory = new File(autoSaveDirectory);
+
+		File[] files = directory.listFiles();
+
+		for (File file : files) {
+			if (file.length() == 0)
+				file.delete();
+
+		}
+	}
+
+	/**
+	 * Initialize timer
+	 */
 	private void initializeTimer() {
 		saveTimer = new Timer(saveInterval, (ActionListener) this);
 		saveTimer.setInitialDelay(0);
 		saveTimer.start();
 	}
 
+	/**
+	 * Load autosave file
+	 */
+	public void loadAutoSaveFile() {
+		File directory = new File(autoSaveDirectory);
 
+			File[] files = directory.listFiles();
+
+			for (File file : files) {
+
+
+				try {
+
+					IFile autoSaveFile = new LocalFile(file);
+					IFileReader readFile = new JFileReader(file);
+					InputStream in = readFile.getInputStream();
+
+					if (in != null) {
+						IGraphFile graphFile = new GraphFile(autoSaveFile);
+
+						IWorkspace workspace = new Workspace(graphFile);
+
+						mainFrame.addWorkspace(workspace);
+
+						in.close();
+					}
+
+
+				} catch (IOException e) {
+					file.delete();
+
+				} catch (Exception e) {
+					file.delete();
+
+			}
+		}
+	}
+
+	/**
+	 * Open autosave frame
+	 */
 	private void createSaveRecoverFrame() {
 
 		ResourceBundleInjector.getInjector().inject(this);
@@ -116,8 +186,8 @@ public class AutoSave implements ActionListener {
 		StartNewBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 
-			removeAutoSaveFile();
-					autoSaveFrame.dispose();
+				removeAutoSaveFile();
+				autoSaveFrame.dispose();
 
 			}
 		});
@@ -128,42 +198,9 @@ public class AutoSave implements ActionListener {
 		autoSaveFrame.setVisible(true);
 	}
 
-	private void loadAutoSaveFile() {
-		File directory = new File(autoSaveDirectory);
-
-			File[] files = directory.listFiles();
-
-			for (File file : files) {
-
-				if (file.length()==0)
-						file.delete();
-				try {
-
-					IFile autoSaveFile = new LocalFile(file);
-					IFileReader readFile = new JFileReader(file);
-					InputStream in = readFile.getInputStream();
-					System.out.print(file.length());
-
-					IGraphFile graphFile = new GraphFile(autoSaveFile);
-
-					IWorkspace workspace = new Workspace(graphFile);
-
-					mainFrame.addWorkspace(workspace);
-
-
-					in.close();
-
-
-
-				} catch (IOException e) {
-					file.delete();
-
-				} catch (Exception e) {
-					file.delete();
-
-			}
-		}
-	}
+	/**
+	 * Remove autosave file
+	 */
 	private void removeAutoSaveFile()
 	{
 		File directory = new File(autoSaveDirectory);
@@ -174,6 +211,10 @@ public class AutoSave implements ActionListener {
 		}
 	}
 
+	/**
+	 * Action Performed
+	 *  @param e event
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for (IWorkspace workspace : mainFrame.getWorkspaceList()) {
