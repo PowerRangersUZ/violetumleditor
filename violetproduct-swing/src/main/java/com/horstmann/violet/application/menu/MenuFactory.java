@@ -102,7 +102,7 @@ public class MenuFactory
 
     /**
      * @param editorFrame
-     * @return window menu
+     * @return setting menu
      */    
     public SettingMenu getSettingMenu(MainFrame editorFrame)
     {
