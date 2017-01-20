@@ -57,17 +57,14 @@ public class SettingMenu extends JMenu {
      * Initialize the menu
      */
     private void createMenu() {
-        if (settingProperties.getSelectedLanguage()==null) {
-            settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
-           
-        }
         ButtonGroup group = new ButtonGroup();
-        if (settingProperties.IsPropertiesFileExist()) {
-            settingProperties.loadProperties();
-        }
+
+        settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
+        settingItemMenuLanguage.setIcon(dialogLanguageIcon);
         languageManager.loadAvailableLang();
+
         for (final Language lang : languageManager.getLanguages()) {
-            JRadioButton menuLangSelect = new  JRadioButton(lang.getName());
+            JCheckBox menuLangSelect = new JCheckBox(lang.getName());
             group.add(menuLangSelect);
 
             if (lang.getShortcut().equals(settingProperties.getSelectedLanguage()))
@@ -129,5 +126,7 @@ public class SettingMenu extends JMenu {
     @ResourceBundleBean(key = "setting.dialog.change_language")
     private String changeLanguageDialogMessage;
 
+    @ResourceBundleBean(key = "setting.active.icon")
+    private ImageIcon dialogLanguageIcon;
 
 }

@@ -105,13 +105,16 @@ public class UMLEditorApplication
      */
     private UMLEditorApplication(String[] filesToOpen)
     {
-        langload();
+        loadPropertiesFromFile();
         initBeanFactory();
         BeanInjector.getInjector().inject(this);
         createDefaultWorkspace(filesToOpen);
     }
 
-    public static void langload()
+    /**
+     * Load properties from file
+     */
+    private static void loadPropertiesFromFile()
     {
         SettingProperties settingProperties = new SettingProperties();
 
@@ -125,6 +128,9 @@ public class UMLEditorApplication
         }
     }
 
+    /**
+     * Initialize theme
+     */
     private static void initBeanFactory() {
         IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
         BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
