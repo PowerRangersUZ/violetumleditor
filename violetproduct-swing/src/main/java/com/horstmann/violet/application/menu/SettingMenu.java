@@ -22,8 +22,10 @@
 package com.horstmann.violet.application.menu;
 
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 import javax.swing.*;
 
 import com.horstmann.violet.application.gui.*;
@@ -55,19 +57,26 @@ public class SettingMenu extends JMenu {
      * Initialize the menu
      */
     private void createMenu() {
-        this.add(settingItemMenuLanguage);
-
+        if (settingProperties.getSelectedLanguage()==null) {
+            settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
+           
+        }
+        ButtonGroup group = new ButtonGroup();
+        if (settingProperties.IsPropertiesFileExist()) {
+            settingProperties.loadProperties();
+        }
         languageManager.loadAvailableLang();
         for (final Language lang : languageManager.getLanguages()) {
-            JMenuItem menuLangSelect = new JMenuItem(lang.getName());
+            JRadioButton menuLangSelect = new  JRadioButton(lang.getName());
+            group.add(menuLangSelect);
+
+            if (lang.getShortcut().equals(settingProperties.getSelectedLanguage()))
+                menuLangSelect.setSelected(true);
+
             settingItemMenuLanguage.add(menuLangSelect);
             menuLangSelect.addActionListener(new ActionListener() {
                                                  @Override
                                                  public void actionPerformed(ActionEvent e) {
-                                                     if (settingProperties.IsPropertiesFileExist()) {
-                                                         settingProperties.loadProperties();
-                                                     }
-
                                                      settingProperties.setSelectedLanguage(lang.getShortcut());
                                                      settingProperties.savePropertiesToFile();
                                                      languageChangeAlert();
@@ -76,7 +85,7 @@ public class SettingMenu extends JMenu {
             );
 
         }
-
+        this.add(settingItemMenuLanguage);
     }
 
     /**
