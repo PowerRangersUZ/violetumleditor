@@ -21,8 +21,6 @@
 
 package com.horstmann.violet.application.menu;
 
-
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
@@ -117,8 +115,6 @@ public class SettingMenu extends JMenu {
     @ResourceBundleBean(key = "setting.langauge")
     private JMenu settingItemMenuLanguage;
 
-    @ResourceBundleBean(key = "setting.nameofclass")
-    private JCheckBoxMenuItem settingItemMenuUpperNameClass;
 
     @ResourceBundleBean(key = "dialog.change_laf.title")
     private String changeLanguageDialogTitle;
