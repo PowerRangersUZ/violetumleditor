@@ -32,14 +32,17 @@ import com.horstmann.violet.framework.injection.resources.annotation.ResourceBun
 import com.horstmann.violet.framework.language.Language;
 import com.horstmann.violet.framework.language.LanguageManager;
 
-
+/**
+ * Represents the setting menu on the editor frame
+ */
 @ResourceBundleBean(resourceReference = MenuFactory.class)
 public class SettingMenu extends JMenu {
-    LanguageManager languageManager = new LanguageManager();
-    private SettingProperties settingPropertis = new SettingProperties();
-    private MainFrame mainFrame;
 
-
+    /**
+     * Default constructor
+     *
+     * @param mainFrame
+     */
     @ResourceBundleBean(key = "setting")
     public SettingMenu(final MainFrame mainFrame) {
         ResourceBundleInjector.getInjector().inject(this);
@@ -48,6 +51,62 @@ public class SettingMenu extends JMenu {
 
     }
 
+    /**
+     * Initialize the menu
+     */
+    private void createMenu() {
+        this.add(settingItemMenuLanguage);
+
+        languageManager.loadAvailableLang();
+        for (final Language lang : languageManager.getLanguages()) {
+            JMenuItem menuLangSelect = new JMenuItem(lang.getName());
+            settingItemMenuLanguage.add(menuLangSelect);
+            menuLangSelect.addActionListener(new ActionListener() {
+                                                 @Override
+                                                 public void actionPerformed(ActionEvent e) {
+                                                     if (settingProperties.IsPropertiesFileExist()) {
+                                                         settingProperties.loadProperties();
+                                                     }
+
+                                                     settingProperties.setSelectedLanguage(lang.getShortcut());
+                                                     settingProperties.savePropertiesToFile();
+                                                     languageChangeAlert();
+                                                 }
+                                             }
+            );
+
+        }
+
+    }
+
+    /**
+     * Initialize alert
+     */
+    private void languageChangeAlert() {
+
+        Object[] options = {"OK"};
+
+        JOptionPane.showOptionDialog(null, changeLanguageDialogMessage, changeLanguageDialogTitle,
+
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+
+                null, options, options[0]);
+    }
+
+    /**
+     * Application frame
+     */
+    private MainFrame mainFrame;
+
+    /**
+     * Initialize LanguageManager
+     */
+    LanguageManager languageManager = new LanguageManager();
+
+    /**
+     * Initialize  SettingProperties
+     */
+    private SettingProperties settingProperties = new SettingProperties();
 
     @ResourceBundleBean(key = "setting.langauge")
     private JMenu settingItemMenuLanguage;
@@ -56,48 +115,10 @@ public class SettingMenu extends JMenu {
     private JCheckBoxMenuItem settingItemMenuUpperNameClass;
 
     @ResourceBundleBean(key = "dialog.change_laf.title")
-    private String changeLAFDialogTitle;
+    private String changeLanguageDialogTitle;
 
     @ResourceBundleBean(key = "setting.dialog.change_language")
-    private String changeLAFDialogMessage;
-
-
-    private void createMenu() {
-        this.add(settingItemMenuLanguage);
-    
-        languageManager.loadAllAvibleLang();
-        for (final Language lang : languageManager.getLanguageArrayList()) {
-            JMenuItem menuLangSelect = new JMenuItem(lang.getName());
-            settingItemMenuLanguage.add(menuLangSelect);
-            menuLangSelect.addActionListener(new ActionListener() {
-                                                 @Override
-                                                 public void actionPerformed(ActionEvent e) {
-                                                     if (settingPropertis.IsPropertiesFileExist()) {
-                                                         settingPropertis.reoladProperties();
-                                                     }
-
-                                                     settingPropertis.setLangauge(lang.getShortcut());
-                                                     settingPropertis.savePropertiesToFile();
-                                                     languageChangeAlert();
-                                                 }
-                                             }
-            );
-
-        }
-
-     }
-
-
-    private void languageChangeAlert() {
-
-        Object[] options = {"OK"};
-
-        JOptionPane.showOptionDialog(null, changeLAFDialogMessage, changeLAFDialogTitle,
-
-                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-
-                null, options, options[0]);
-    }
+    private String changeLanguageDialogMessage;
 
 
 }
