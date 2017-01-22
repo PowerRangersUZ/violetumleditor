@@ -112,7 +112,7 @@ public class UMLEditorApplication
     }
 
     /**
-     * Load properties from file
+     * Load properties from file, and set locale
      */
     private static void loadPropertiesFromFile()
     {
