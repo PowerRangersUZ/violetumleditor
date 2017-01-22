@@ -5,8 +5,8 @@ package com.horstmann.violet.framework.language;
  */
 public class Language {
 
-    public String shortcut;
-    public String name;
+    private String shortcut;
+    private String name;
 
     /**
      * Constructor Language

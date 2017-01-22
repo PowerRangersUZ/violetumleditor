@@ -28,3 +28,5 @@ target/
 # if you remove the above rule, at least ignore the following:
 
 
+violetproduct-swing/src/main/java/com/horstmann/violet/application/menu/MenuFactory_pl.properties
+violetproduct-swing/src/main/java/com/horstmann/violet/application/menu/MenuFactory_pl.properties
