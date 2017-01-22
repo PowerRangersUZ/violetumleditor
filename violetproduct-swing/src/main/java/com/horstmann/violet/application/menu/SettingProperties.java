@@ -8,6 +8,7 @@ import java.util.Properties;
  */
 public class SettingProperties {
 
+    private static final File propertiesFile = new File(System.getProperty("user.home") + File.separator + "user.properties");
     private static final String languageProperties = "language";
     private String selectedLanguage;
 
@@ -18,8 +19,6 @@ public class SettingProperties {
     public String getSelectedLanguage() {
         return selectedLanguage;
     }
-
-
 
     /**
      * Set selectedLanguage
