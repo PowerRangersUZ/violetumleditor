@@ -129,7 +129,19 @@ public class ClassNode extends ColorableNode
      */
     public void setName(LineText newValue)
     {
-        name.setText(newValue);
+        toBigLetter(newValue);
+    }
+
+    /**
+     * Sets the name from big letter.
+     *
+     * @param newValue the class name
+     */
+    public void toBigLetter(LineText newValue)
+    {
+        String newName = getName().toString().substring(0,1).toUpperCase()
+                         + getName().toString().substring(1).toLowerCase();
+        name.setText(newName);
     }
 
     /**
