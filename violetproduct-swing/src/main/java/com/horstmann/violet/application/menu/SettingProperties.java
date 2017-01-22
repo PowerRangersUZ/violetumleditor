@@ -12,16 +12,18 @@ public class SettingProperties {
     private String selectedLanguage;
 
     /**
-     * Get selectedLanguage interval
-     * @return selectedLanguage interval
+     * Get selectedLanguage
+     * @return selectedLanguage
      */
     public String getSelectedLanguage() {
         return selectedLanguage;
     }
 
+
+
     /**
-     * Set autosave interval
-     * @param selectedLanguage interval
+     * Set selectedLanguage
+     * @param selectedLanguage
      */
     public void setSelectedLanguage(String selectedLanguage) {
         this.selectedLanguage = selectedLanguage;
@@ -32,13 +34,8 @@ public class SettingProperties {
      * @return boolean
      */
     public boolean IsPropertiesFileExist() {
-        File f = new File(System.getProperty("user.home") + File.separator + "user.properties");
-        if (f.exists() && !f.isDirectory()) {
+        return propertiesFile.exists() && !propertiesFile.isDirectory();
 
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -47,7 +44,7 @@ public class SettingProperties {
     private void createPropertiesFile() {
         try {
 
-            OutputStream out = new FileOutputStream(new File(System.getProperty("user.home") + File.separator + "user.properties"));
+            OutputStream out = new FileOutputStream(propertiesFile);
             out.close();
             savePropertiesToFile();
 
@@ -64,7 +61,7 @@ public class SettingProperties {
         if (IsPropertiesFileExist()) {
             try {
                 Properties props = new Properties();
-                OutputStream out = new FileOutputStream(new File(System.getProperty("user.home") + File.separator + "user.properties"));
+                OutputStream out = new FileOutputStream(propertiesFile);
                 props.setProperty(languageProperties, selectedLanguage);
                 props.store(out, "User properties");
                 out.close();
@@ -78,7 +75,6 @@ public class SettingProperties {
 
     }
 
-
     /**
      * Load properties
      */
@@ -87,7 +83,7 @@ public class SettingProperties {
         try {
 
             Properties props = new Properties();
-            InputStream in = new FileInputStream(new File(System.getProperty("user.home") + File.separator + "user.properties"));
+            InputStream in = new FileInputStream(propertiesFile );
             props.load(in);
             selectedLanguage = props.getProperty(languageProperties);
             in.close();
