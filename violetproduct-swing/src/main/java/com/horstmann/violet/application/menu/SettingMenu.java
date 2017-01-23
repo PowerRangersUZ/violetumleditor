@@ -59,7 +59,6 @@ public class SettingMenu extends JMenu {
 
         settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
         settingItemMenuLanguage.setIcon(dialogLanguageIcon);
-        languageManager.loadAvailableLang();
 
         for (final Language lang : languageManager.getLanguages()) {
             JCheckBoxMenuItem menuLangSelect = new JCheckBoxMenuItem(lang.getName());

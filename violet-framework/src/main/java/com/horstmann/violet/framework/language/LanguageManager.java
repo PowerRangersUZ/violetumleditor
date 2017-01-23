@@ -10,8 +10,11 @@ import java.util.Locale;
  */
 public class LanguageManager {
 
+    public LanguageManager() {
+        loadAvailableLang();
+    }
 
-    List<Language> languages = new ArrayList<Language>();
+    private List<Language> languages = new ArrayList<Language>();
 
     /**
      * Get language interval

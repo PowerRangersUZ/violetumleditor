@@ -114,7 +114,7 @@ public class UMLEditorApplication
     /**
      * Load properties from file, and set locale
      */
-    private static void loadPropertiesFromFile()
+    private void loadPropertiesFromFile()
     {
         SettingProperties settingProperties = new SettingProperties();
 
