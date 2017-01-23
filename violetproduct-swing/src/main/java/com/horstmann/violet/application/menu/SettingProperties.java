@@ -1,5 +1,7 @@
 package com.horstmann.violet.application.menu;
 
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
+
 import java.io.*;
 import java.util.Locale;
 import java.util.Properties;
@@ -12,6 +14,8 @@ public class SettingProperties {
     private static final File propertiesFile = new File(System.getProperty("user.home") + File.separator + "user.properties");
     private static final String languageProperties = "language";
     private String selectedLanguage;
+    private static final String classNameProperties = "StartFromBig";
+    private String selectedClassName = "disabled";
 
     public SettingProperties() {
         if (IsPropertiesFileExist()) {
@@ -19,24 +23,37 @@ public class SettingProperties {
 
             if (getSelectedLanguage() != null) {
                 Locale locale = new Locale(getSelectedLanguage());
+                setSelectedLanguage(Locale.getDefault().getLanguage());
                 Locale.setDefault(locale);
             }
 
-
+            if (getSelectedClassName().equals("enabled")) {
+                ClassNode.nameChange = true;
+            }
         }
 
     }
 
     /**
      * Get selectedLanguage
+     *
      * @return selectedLanguage
      */
     public String getSelectedLanguage() {
         return selectedLanguage;
     }
 
+    public String getSelectedClassName() {
+        return selectedClassName;
+    }
+
+    public void setSelectedClassName(String selectedClassName) {
+        this.selectedClassName = selectedClassName;
+    }
+
     /**
      * Set selectedLanguage
+     *
      * @param selectedLanguage
      */
     public void setSelectedLanguage(String selectedLanguage) {
@@ -45,6 +62,7 @@ public class SettingProperties {
 
     /**
      * Check is properties file exist
+     *
      * @return boolean
      */
     public boolean IsPropertiesFileExist() {
@@ -77,6 +95,7 @@ public class SettingProperties {
                 Properties props = new Properties();
                 OutputStream out = new FileOutputStream(propertiesFile);
                 props.setProperty(languageProperties, selectedLanguage);
+                props.setProperty(classNameProperties, selectedClassName);
                 props.store(out, "User properties");
                 out.close();
 
@@ -97,9 +116,10 @@ public class SettingProperties {
         try {
 
             Properties props = new Properties();
-            InputStream in = new FileInputStream(propertiesFile );
+            InputStream in = new FileInputStream(propertiesFile);
             props.load(in);
             selectedLanguage = props.getProperty(languageProperties);
+            selectedClassName = props.getProperty(classNameProperties);
             in.close();
         } catch (Exception e) {
             e.printStackTrace();

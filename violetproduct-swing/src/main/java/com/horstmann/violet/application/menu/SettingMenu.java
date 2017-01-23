@@ -31,6 +31,7 @@ import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.language.Language;
 import com.horstmann.violet.framework.language.LanguageManager;
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 
 /**
  * Represents the setting menu on the editor frame
@@ -57,8 +58,9 @@ public class SettingMenu extends JMenu {
     private void createMenu() {
         ButtonGroup group = new ButtonGroup();
 
-        settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
+
         settingItemMenuLanguage.setIcon(dialogLanguageIcon);
+
 
         for (final Language lang : languageManager.getLanguages()) {
             JCheckBoxMenuItem menuLangSelect = new JCheckBoxMenuItem(lang.getName());
@@ -71,15 +73,37 @@ public class SettingMenu extends JMenu {
             menuLangSelect.addActionListener(new ActionListener() {
                                                  @Override
                                                  public void actionPerformed(ActionEvent e) {
+
                                                      settingProperties.setSelectedLanguage(lang.getShortcut());
                                                      settingProperties.savePropertiesToFile();
                                                      languageChangeAlert();
                                                  }
                                              }
             );
+        }
+        classNameJBox.addActionListener(new ActionListener() {
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                if (classNameJBox.isSelected()) {
 
+                                                    ClassNode.nameChange = true;
+                                                    settingProperties.setSelectedClassName("enabled");
+                                                    settingProperties.savePropertiesToFile();
+                                                } else {
+
+                                                    ClassNode.nameChange = false;
+                                                    settingProperties.setSelectedClassName("disabled");
+                                                    settingProperties.savePropertiesToFile();
+                                                }
+                                            }
+                                        }
+        );
+        if (settingProperties.getSelectedClassName().equals("enabled")) {
+
+            classNameJBox.setSelected(true);
         }
         this.add(settingItemMenuLanguage);
+        this.add(classNameJBox);
     }
 
     /**
@@ -123,5 +147,8 @@ public class SettingMenu extends JMenu {
 
     @ResourceBundleBean(key = "setting.active.icon")
     private ImageIcon dialogLanguageIcon;
+
+    @ResourceBundleBean(key = "setting.dialog.name.class")
+    private JCheckBoxMenuItem classNameJBox;
 
 }

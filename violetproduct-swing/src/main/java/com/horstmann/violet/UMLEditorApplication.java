@@ -54,6 +54,7 @@ import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.framework.util.VersionChecker;
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 
@@ -62,33 +63,27 @@ import javax.swing.*;
 /**
  * A program for editing UML diagrams.
  */
-public class UMLEditorApplication
-{
+public class UMLEditorApplication {
 
     /**
      * Standalone application entry point
-     * 
+     *
      * @param args (could contains file to open)
      */
-    public static void main(String[] args)
-    {
-        for (int i = 0; i < args.length; i++)
-        {
+    public static void main(String[] args) {
+        for (int i = 0; i < args.length; i++) {
             String arg = args[i];
-            if ("-reset".equals(arg))
-            {
+            if ("-reset".equals(arg)) {
                 initBeanFactory();
                 UserPreferencesService service = BeanFactory.getFactory().getBean(UserPreferencesService.class);
                 service.reset();
                 System.out.println("User preferences reset done.");
             }
-            if ("-english".equals(arg))
-            {
+            if ("-english".equals(arg)) {
                 Locale.setDefault(Locale.ENGLISH);
                 System.out.println("Language forced to english.");
             }
-            if ("-help".equals(arg) || "-?".equals(arg))
-            {
+            if ("-help".equals(arg) || "-?".equals(arg)) {
                 System.out.println("Violet UML Editor command line help. Options are :");
                 System.out.println("-reset to reset user preferences,");
                 System.out.println("-english to force language to english.");
@@ -100,11 +95,10 @@ public class UMLEditorApplication
 
     /**
      * Default constructor
-     * 
+     *
      * @param filesToOpen
      */
-    private UMLEditorApplication(String[] filesToOpen)
-    {
+    private UMLEditorApplication(String[] filesToOpen) {
         loadPropertiesFromFile();
         initBeanFactory();
         BeanInjector.getInjector().inject(this);
@@ -114,8 +108,7 @@ public class UMLEditorApplication
     /**
      * Load properties from file, and set locale
      */
-    private void loadPropertiesFromFile()
-    {
+    private void loadPropertiesFromFile() {
         SettingProperties settingProperties = new SettingProperties();
     }
 
@@ -143,14 +136,13 @@ public class UMLEditorApplication
 
         DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.INTERNAL);
         BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);
-        
+
         IFilePersistenceService filePersistenceService = new XHTMLPersistenceService();
         BeanFactory.getFactory().register(IFilePersistenceService.class, filePersistenceService);
-        
+
         IFileChooserService fileChooserService = new JFileChooserService();
         BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
     }
-
 
 
     /**
@@ -160,8 +152,7 @@ public class UMLEditorApplication
      * + command line args<br>
      * + last workspace restore<br>
      */
-    private void createDefaultWorkspace(String[] filesToOpen)
-    {
+    private void createDefaultWorkspace(String[] filesToOpen) {
         installPlugins();
         SplashScreen splashScreen = new SplashScreen();
         splashScreen.setVisible(true);
@@ -173,31 +164,23 @@ public class UMLEditorApplication
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
         fullList.addAll(lastSessionFiles);
-        for (String aFileToOpen : filesToOpen)
-        {
-            try
-            {
+        for (String aFileToOpen : filesToOpen) {
+            try {
                 LocalFile localFile = new LocalFile(new File(aFileToOpen));
                 fullList.add(localFile);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 // There's nothing to do. We're starting the program
                 // Some logs should be nive
                 e.printStackTrace();
             }
         }
         // Open files
-        for (IFile aFile : lastSessionFiles)
-        {
-            try
-            {
+        for (IFile aFile : lastSessionFiles) {
+            try {
                 IGraphFile graphFile = new GraphFile(aFile);
                 IWorkspace workspace = new Workspace(graphFile);
                 mainFrame.addWorkspace(workspace);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.err.println("Unable to open file " + aFile.getFilename() + "from location " + aFile.getDirectory());
                 userPreferencesService.removeOpenedFile(aFile);
                 System.err.println("Removed from user preferences!");
@@ -213,8 +196,7 @@ public class UMLEditorApplication
     /**
      * Install plugins
      */
-    private void installPlugins()
-    {
+    private void installPlugins() {
 
         this.pluginLoader.installPlugins();
     }

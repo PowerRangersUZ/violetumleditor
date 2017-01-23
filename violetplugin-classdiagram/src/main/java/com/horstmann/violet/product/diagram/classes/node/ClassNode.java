@@ -19,13 +19,13 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 /**
  * A class node in a class diagram.
  */
-public class ClassNode extends ColorableNode
-{
-	/**
+public class ClassNode extends ColorableNode {
+    public static boolean nameChange = false;
+
+    /**
      * Construct a class node with a default size
      */
-    public ClassNode()
-    {
+    public ClassNode() {
         super();
         name = new SingleLineText(NAME_CONVERTER);
         name.setAlignment(LineText.CENTER);
@@ -34,8 +34,7 @@ public class ClassNode extends ColorableNode
         createContentStructure();
     }
 
-    protected ClassNode(ClassNode node) throws CloneNotSupportedException
-    {
+    protected ClassNode(ClassNode node) throws CloneNotSupportedException {
         super(node);
         name = node.name.clone();
         attributes = node.attributes.clone();
@@ -44,20 +43,16 @@ public class ClassNode extends ColorableNode
     }
 
     @Override
-    protected void beforeReconstruction()
-    {
+    protected void beforeReconstruction() {
         super.beforeReconstruction();
 
-        if(null == name)
-        {
+        if (null == name) {
             name = new SingleLineText();
         }
-        if(null == attributes)
-        {
+        if (null == attributes) {
             attributes = new MultiLineText();
         }
-        if(null == methods)
-        {
+        if (null == methods) {
             methods = new MultiLineText();
         }
         name.reconstruction(NAME_CONVERTER);
@@ -67,14 +62,12 @@ public class ClassNode extends ColorableNode
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
-    {
+    protected INode copy() throws CloneNotSupportedException {
         return new ClassNode(this);
     }
 
     @Override
-    protected void createContentStructure()
-    {
+    protected void createContentStructure() {
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
@@ -98,18 +91,15 @@ public class ClassNode extends ColorableNode
     }
 
     @Override
-    public void setBorderColor(Color borderColor)
-    {
-        if(null != separator)
-        {
+    public void setBorderColor(Color borderColor) {
+        if (null != separator) {
             separator.setColor(borderColor);
         }
         super.setBorderColor(borderColor);
     }
 
     @Override
-    public void setTextColor(Color textColor)
-    {
+    public void setTextColor(Color textColor) {
         name.setTextColor(textColor);
         attributes.setTextColor(textColor);
         methods.setTextColor(textColor);
@@ -117,19 +107,23 @@ public class ClassNode extends ColorableNode
     }
 
     @Override
-    public String getToolTip()
-    {
+    public String getToolTip() {
         return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.class_node");
     }
 
     /**
      * Sets the name property value.
-     * 
+     *
      * @param newValue the class name
      */
-    public void setName(LineText newValue)
-    {
-        toBigLetter(newValue);
+    public void setName(LineText newValue) {
+        if (nameChange == true) {
+
+            toBigLetter(newValue);
+        }
+        else {
+            name.setText(newValue);
+        }
     }
 
     /**
@@ -137,60 +131,54 @@ public class ClassNode extends ColorableNode
      *
      * @param newValue the class name
      */
-    public void toBigLetter(LineText newValue)
-    {
-        String newName = getName().toString().substring(0,1).toUpperCase()
-                         + getName().toString().substring(1).toLowerCase();
+    public void toBigLetter(LineText newValue) {
+        String newName = getName().toString().substring(0, 1).toUpperCase()
+                + getName().toString().substring(1).toLowerCase();
         name.setText(newName);
     }
 
     /**
      * Gets the name property value.
-     * 
+     *
      * @return the class name
      */
-    public LineText getName()
-    {
+    public LineText getName() {
         return name;
     }
 
     /**
      * Sets the attributes property value.
-     * 
+     *
      * @param newValue the attributes of this class
      */
-    public void setAttributes(LineText newValue)
-    {
+    public void setAttributes(LineText newValue) {
         attributes.setText(newValue);
     }
 
     /**
      * Gets the attributes property value.
-     * 
+     *
      * @return the attributes of this class
      */
-    public LineText getAttributes()
-    {
+    public LineText getAttributes() {
         return attributes;
     }
 
     /**
      * Sets the methods property value.
-     * 
+     *
      * @param newValue the methods of this class
      */
-    public void setMethods(LineText newValue)
-    {
+    public void setMethods(LineText newValue) {
         methods.setText(newValue);
     }
 
     /**
      * Gets the methods property value.
-     * 
+     *
      * @return the methods of this class
      */
-    public LineText getMethods()
-    {
+    public LineText getMethods() {
         return methods;
     }
 
@@ -205,11 +193,11 @@ public class ClassNode extends ColorableNode
     private static final String STATIC = "<<static>>";
     private static final String ABSTRACT = "«abstract»";
     private static final String[][] SIGNATURE_REPLACE_KEYS = {
-            { "public ", "+ " },
-            { "package ", "~ " },
-            { "protected ", "# " },
-            { "private ", "- " },
-            { "property ", "/ " }
+            {"public ", "+ "},
+            {"package ", "~ "},
+            {"protected ", "# "},
+            {"private ", "- "},
+            {"property ", "/ "}
     };
 
     private static final List<String> STEREOTYPES = Arrays.asList(
@@ -225,23 +213,18 @@ public class ClassNode extends ColorableNode
             ABSTRACT
     );
 
-    private static final LineText.Converter NAME_CONVERTER = new LineText.Converter()
-    {
+    private static final LineText.Converter NAME_CONVERTER = new LineText.Converter() {
         @Override
-        public OneLineText toLineString(String text)
-        {
+        public OneLineText toLineString(String text) {
             OneLineText controlText = new OneLineText(text);
             OneLineText lineString = new LargeSizeDecorator(controlText);
 
-            if(controlText.contains(ABSTRACT))
-            {
+            if (controlText.contains(ABSTRACT)) {
                 lineString = new ItalicsDecorator(lineString);
             }
 
-            for(String stereotype : STEREOTYPES)
-            {
-                if(controlText.contains(stereotype))
-                {
+            for (String stereotype : STEREOTYPES) {
+                if (controlText.contains(stereotype)) {
                     lineString = new PrefixDecorator(new RemoveSentenceDecorator(
                             lineString, stereotype), String.format("<center>%s</center>", stereotype)
                     );
@@ -251,19 +234,15 @@ public class ClassNode extends ColorableNode
             return lineString;
         }
     };
-    private static final LineText.Converter PROPERTY_CONVERTER = new LineText.Converter()
-    {
+    private static final LineText.Converter PROPERTY_CONVERTER = new LineText.Converter() {
         @Override
-        public OneLineText toLineString(String text)
-        {
+        public OneLineText toLineString(String text) {
             OneLineText lineString = new OneLineText(text);
 
-            if(lineString.contains(STATIC))
-            {
+            if (lineString.contains(STATIC)) {
                 lineString = new UnderlineDecorator(new RemoveSentenceDecorator(lineString, STATIC));
             }
-            for(String[] signature : SIGNATURE_REPLACE_KEYS)
-            {
+            for (String[] signature : SIGNATURE_REPLACE_KEYS) {
                 lineString = new ReplaceSentenceDecorator(lineString, signature[0], signature[1]);
             }
 
