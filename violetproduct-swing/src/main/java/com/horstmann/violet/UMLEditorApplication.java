@@ -117,15 +117,6 @@ public class UMLEditorApplication
     private void loadPropertiesFromFile()
     {
         SettingProperties settingProperties = new SettingProperties();
-
-        if (settingProperties.IsPropertiesFileExist() )  {
-            settingProperties.loadProperties();
-            if (settingProperties.getSelectedLanguage()!=null) {
-                Locale locale = new Locale(settingProperties.getSelectedLanguage());
-
-                Locale.setDefault(locale);
-            }
-        }
     }
 
     /**
