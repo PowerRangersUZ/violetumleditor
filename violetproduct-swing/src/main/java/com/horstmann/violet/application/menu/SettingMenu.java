@@ -58,7 +58,7 @@ public class SettingMenu extends JMenu {
     private void createMenu() {
         ButtonGroup group = new ButtonGroup();
 
-
+        settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
         settingItemMenuLanguage.setIcon(dialogLanguageIcon);
 
 

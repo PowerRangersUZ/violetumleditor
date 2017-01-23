@@ -57,7 +57,6 @@ public class ApplicationStopper
             IGraphFile graphFile = workspace.getGraphFile();
             System.out.print ("ss");
         	//if (graphFile.isSaveRequired())
-            //{ System.out.print ("s2s");
 
                 dirtyWorkspaceList.add(workspace);
             //}
