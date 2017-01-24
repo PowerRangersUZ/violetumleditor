@@ -203,7 +203,10 @@ public class Workspace implements IWorkspace
     @Override
     public void setTitle(String newValue)
     {
-        title = newValue;
+        String version = resourceBundle.getString("app.version.number");
+
+        title = newValue + " " + version;
+
         fireTitleChanged(newValue);
     }
 
