@@ -30,6 +30,7 @@ public class ClassDiagramGraph extends AbstractGraph
     private static final List<INode> NODE_PROTOTYPES = new ArrayList<INode>(Arrays.asList(
             new ClassNode(),
             new InterfaceNode(),
+            new AbstractClassNode(),
             new EnumNode(),
             new PackageNode(),
             new BallAndSocketNode(),
