@@ -180,6 +180,18 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
             }
         });
         aPopupMenu.add(selectAll);
+        selectItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                IEditorPartBehaviorManager behaviorManager = ShowMenuOnRightClickBehavior.this.editorPart.getBehaviorManager();
+                List<SelectBehavior> found = behaviorManager.getBehaviors(SelectBehavior.class);
+
+                if (found.size() != 1) {
+                    return;
+                }
+                found.get(0).selectItem();
+            }
+        });
+        aPopupMenu.add(selectItem);
         
         return aPopupMenu;
     }
@@ -213,6 +225,9 @@ public class ShowMenuOnRightClickBehavior extends AbstractEditorPartBehavior
 
     @ResourceBundleBean(key = "edit.select_all")
     private JMenuItem selectAll;
+
+    @ResourceBundleBean(key = "edit.select_item")
+    private JMenuItem selectItem;
     
     private IEditorPart editorPart;
 
