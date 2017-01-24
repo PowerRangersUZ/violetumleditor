@@ -28,9 +28,9 @@ import java.io.InputStream;
 
 public class AutoSaveRecover extends JFrame {
 
-    public static boolean isLoad =false;
+    public static boolean isLoad = false;
     private MainFrame mainFrame;
-    AutoSave autoSave = new AutoSave(mainFrame);
+    private AutoSave autoSave = new AutoSave(mainFrame);
 
     @ResourceBundleBean(key = "dialog.autosave.title")
     private String dialogTitle;
@@ -45,27 +45,30 @@ public class AutoSaveRecover extends JFrame {
      * Open autosave frame
      */
     public AutoSaveRecover(MainFrame mainFrame) {
-
-        this.mainFrame = mainFrame;
-
         ResourceBundleInjector.getInjector().inject(this);
         ManiocFramework.BeanInjector.getInjector().inject(this);
+        this.mainFrame = mainFrame;
+
+        JPanel buttonPanel = getButtonPanel();
+
         this.setTitle(this.dialogTitle);
         this.setLocationRelativeTo(null);
-        //this.setModal(true);
         this.setAlwaysOnTop(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.getContentPane().setLayout(new BorderLayout());
-
-        JPanel buttonPanel = getButtonPanel();
         this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         this.pack();
         this.setVisible(true);
+
         setLocation(this);
     }
 
-
+    /**
+     * Create ButtonPanel
+     *
+     * @return buttonPanel
+     */
     private JPanel getButtonPanel() {
 
         JPanel buttonPanel = new JPanel();
@@ -96,7 +99,7 @@ public class AutoSaveRecover extends JFrame {
     }
 
     /**
-     * Set Jframe postion
+     * Set JFrame position
      *
      * @param parent JFrame
      */
@@ -105,8 +108,8 @@ public class AutoSaveRecover extends JFrame {
 
         int w = this.getSize().width;
         int h = this.getSize().height;
-        int x = (dimension.width-w)/2;
-        int y = (dimension.height-h)/2;
+        int x = (dimension.width - w) / 2;
+        int y = (dimension.height - h) / 2;
 
         this.setLocation(x, y);
     }
@@ -136,7 +139,7 @@ public class AutoSaveRecover extends JFrame {
                     mainFrame.addWorkspace(workspace);
 
                     in.close();
-                    isLoad=true;
+                    isLoad = true;
                 }
 
 

@@ -17,20 +17,24 @@ public class SettingProperties {
     private static final String classNameProperties = "StartFromBig";
     private String selectedClassName = "disabled";
 
+    /**
+     *  Constructor SettingProperties
+     *
+     */
     public SettingProperties() {
         if (IsPropertiesFileExist()) {
             loadProperties();
-
             if (getSelectedLanguage() != null) {
                 Locale locale = new Locale(getSelectedLanguage());
-                setSelectedLanguage(Locale.getDefault().getLanguage());
                 Locale.setDefault(locale);
+
             }
 
             if (getSelectedClassName().equals("enabled")) {
                 ClassNode.nameChange = true;
             }
         }
+        setSelectedLanguage(Locale.getDefault().getLanguage());
 
     }
 
@@ -42,13 +46,14 @@ public class SettingProperties {
     public String getSelectedLanguage() {
         return selectedLanguage;
     }
+    /**
+     * Get SelectedClassName(
+     *
+     * @return selectedClassName
+     */
 
     public String getSelectedClassName() {
         return selectedClassName;
-    }
-
-    public void setSelectedClassName(String selectedClassName) {
-        this.selectedClassName = selectedClassName;
     }
 
     /**
@@ -58,6 +63,15 @@ public class SettingProperties {
      */
     public void setSelectedLanguage(String selectedLanguage) {
         this.selectedLanguage = selectedLanguage;
+    }
+
+    /**
+     * Set selectedClassName
+     *
+     * @param selectedClassName
+     */
+    public void setSelectedClassName(String selectedClassName) {
+        this.selectedClassName = selectedClassName;
     }
 
     /**

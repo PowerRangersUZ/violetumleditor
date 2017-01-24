@@ -23,7 +23,6 @@ package com.horstmann.violet.application.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 import javax.swing.*;
 
 import com.horstmann.violet.application.gui.*;
@@ -56,18 +55,20 @@ public class SettingMenu extends JMenu {
      * Initialize the menu
      */
     private void createMenu() {
+
         ButtonGroup group = new ButtonGroup();
 
-        settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
         settingItemMenuLanguage.setIcon(dialogLanguageIcon);
 
-
         for (final Language lang : languageManager.getLanguages()) {
+
             JCheckBoxMenuItem menuLangSelect = new JCheckBoxMenuItem(lang.getName());
             group.add(menuLangSelect);
 
-            if (lang.getShortcut().equals(settingProperties.getSelectedLanguage()))
+            if (lang.getShortcut().equals(settingProperties.getSelectedLanguage())) {
+
                 menuLangSelect.setSelected(true);
+            }
 
             settingItemMenuLanguage.add(menuLangSelect);
             menuLangSelect.addActionListener(new ActionListener() {
@@ -81,6 +82,12 @@ public class SettingMenu extends JMenu {
                                              }
             );
         }
+
+        if (settingProperties.getSelectedClassName().equals("enabled")) {
+
+            classNameJBox.setSelected(true);
+        }
+
         classNameJBox.addActionListener(new ActionListener() {
                                             @Override
                                             public void actionPerformed(ActionEvent e) {
@@ -98,10 +105,7 @@ public class SettingMenu extends JMenu {
                                             }
                                         }
         );
-        if (settingProperties.getSelectedClassName().equals("enabled")) {
 
-            classNameJBox.setSelected(true);
-        }
         this.add(settingItemMenuLanguage);
         this.add(classNameJBox);
     }
@@ -137,7 +141,6 @@ public class SettingMenu extends JMenu {
 
     @ResourceBundleBean(key = "setting.langauge")
     private JMenu settingItemMenuLanguage;
-
 
     @ResourceBundleBean(key = "dialog.change_laf.title")
     private String changeLanguageDialogTitle;
