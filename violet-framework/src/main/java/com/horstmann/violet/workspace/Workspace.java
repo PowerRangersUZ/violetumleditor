@@ -332,8 +332,8 @@ public class Workspace implements IWorkspace
     }
     
     @Override
-    public void setAWTComponent(WorkspacePanel workspacePanel) {
-    	
+    public void setAWTComponent(WorkspacePanel workspacePanel)
+    {
     	this.workspacePanel = workspacePanel;
     }
 
