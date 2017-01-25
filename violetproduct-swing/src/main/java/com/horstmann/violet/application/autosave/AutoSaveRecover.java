@@ -28,12 +28,12 @@ import java.io.InputStream;
 
 public class AutoSaveRecover extends JFrame {
 
-    public static boolean isLoad = false;
+    public static boolean isAutoSaveFileLoad = false;
     private MainFrame mainFrame;
     private AutoSave autoSave = new AutoSave(mainFrame);
 
     @ResourceBundleBean(key = "dialog.autosave.title")
-    private String dialogTitle;
+    private String saveRecoverFrameTitle;
 
     @ResourceBundleBean(key = "dialog.autosave.recover")
     private String buttonRecovery;
@@ -47,11 +47,12 @@ public class AutoSaveRecover extends JFrame {
     public AutoSaveRecover(MainFrame mainFrame) {
         ResourceBundleInjector.getInjector().inject(this);
         ManiocFramework.BeanInjector.getInjector().inject(this);
+
         this.mainFrame = mainFrame;
 
         JPanel buttonPanel = getButtonPanel();
 
-        this.setTitle(this.dialogTitle);
+        this.setTitle(this.saveRecoverFrameTitle);
         this.setLocationRelativeTo(null);
         this.setAlwaysOnTop(true);
         this.setResizable(false);
@@ -101,9 +102,9 @@ public class AutoSaveRecover extends JFrame {
     /**
      * Set JFrame position
      *
-     * @param parent JFrame
+     * @param jFrame JFrame
      */
-    private void setLocation(JFrame parent) {
+    private void setLocation(JFrame jFrame) {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 
         int w = this.getSize().width;
@@ -139,7 +140,7 @@ public class AutoSaveRecover extends JFrame {
                     mainFrame.addWorkspace(workspace);
 
                     in.close();
-                    isLoad = true;
+                    isAutoSaveFileLoad = true;
                 }
 
 

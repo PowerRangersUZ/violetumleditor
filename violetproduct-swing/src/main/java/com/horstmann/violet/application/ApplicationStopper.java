@@ -54,13 +54,14 @@ public class ApplicationStopper
         List<IWorkspace> workspaceList = mainFrame.getWorkspaceList();
         for (IWorkspace workspace: workspaceList)
         {
-                dirtyWorkspaceList.add(workspace);
+
+            dirtyWorkspaceList.add(workspace);
 
         }
         int unsavedCount = dirtyWorkspaceList.size();
         IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
 
-        if (AutoSaveRecover.isLoad)
+        if (AutoSaveRecover.isAutoSaveFileLoad ==true)
         {
             unsavedCount++;
         }
