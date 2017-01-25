@@ -142,7 +142,7 @@ public class CombinedFragmentNode extends AbstractNode implements IResizableNode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         return false;
     }

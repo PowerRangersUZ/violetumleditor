@@ -176,7 +176,7 @@ public class ActivationBarNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         if(null == edge.getEndNode())
         {

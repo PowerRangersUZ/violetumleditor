@@ -49,7 +49,7 @@ public interface INode extends Serializable, Cloneable, IIdentifiable, Connected
      * @param edge the edge to add
      * @return true if the edge was added
      */
-    boolean addConnection(IEdge edge);
+    boolean canConnect(IEdge edge);
 
     /**
      * Notifies this node_old that an edge is being removed.

@@ -139,7 +139,7 @@ public class SignalReceiptNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         if (edge.getEndNode() != null && this != edge.getEndNode())
         {
