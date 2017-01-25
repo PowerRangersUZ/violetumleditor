@@ -10,16 +10,19 @@ import java.util.Locale;
  */
 public class LanguageManager {
 
+    /**
+     * Default constructor
+     */
     public LanguageManager() {
-        loadAvailableLang();
+        loadAvailableLanguage();
     }
 
     private List<Language> languages = new ArrayList<Language>();
 
     /**
-     * Get language interval
+     * Get languages List
      *
-     * @return language interval
+     * @return languages
      */
     public List<Language> getLanguages() {
         return languages;
@@ -28,7 +31,7 @@ public class LanguageManager {
     /**
      * Load languages and add to list
      */
-    public void loadAvailableLang() {
+    public void loadAvailableLanguage() {
 
 
         String[] languages = Locale.getISOLanguages();
@@ -39,8 +42,8 @@ public class LanguageManager {
 
             if (file != null) {
 
-                Locale deLocale = new Locale(countryCode);
-                String languageName = deLocale.getDisplayLanguage(deLocale);
+                Locale locale = new Locale(countryCode);
+                String languageName = locale.getDisplayLanguage(locale);
                 this.languages.add(new Language(countryCode, languageName));
 
             }

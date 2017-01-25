@@ -11,7 +11,7 @@ public class Language {
     /**
      * Constructor Language
      *
-     * @param shortcut ,name
+     * @param shortcut, name
      */
     public Language(String shortcut, String name) {
         this.shortcut = shortcut;
@@ -19,36 +19,36 @@ public class Language {
     }
 
     /**
-     * Get name interval
+     * Get language name
      *
-     * @return name interval
+     * @return name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Set name interval
+     * Set language name
      *
-     * @param name interval
+     * @param name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Get shortcut interval
+     * Get language shortcut
      *
-     * @return shortcut interval
+     * @return shortcut
      */
     public String getShortcut() {
         return shortcut;
     }
 
     /**
-     * Set shortcut interval
+     * Set language shortcut
      *
-     * @param shortcut interval
+     * @param shortcut
      */
     public void setShortcut(String shortcut) {
         this.shortcut = shortcut;
