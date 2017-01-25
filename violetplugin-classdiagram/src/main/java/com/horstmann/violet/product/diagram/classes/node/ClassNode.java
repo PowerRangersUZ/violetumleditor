@@ -21,7 +21,7 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
  */
 public class ClassNode extends ColorableNode {
 
-    public static boolean classNameChange = false;
+    public static boolean startClassNameFromBig = false;
 
     /**
      * Construct a class node with a default size
@@ -126,13 +126,13 @@ public class ClassNode extends ColorableNode {
 
     /**
      * Sets the name property value.
-     * 
+     *
      * @param newValue the class name
      */
     public void setName(LineText newValue) {
-        if (classNameChange == true) {
+        if (startClassNameFromBig == true) {
 
-            toBigLetter(getName());
+            toBigLetter(newValue);
         }
         else {
             name.setText(newValue);
@@ -152,7 +152,7 @@ public class ClassNode extends ColorableNode {
 
     /**
      * Gets the name property value.
-     * 
+     *
      * @return the class name
      */
     public LineText getName()
@@ -162,7 +162,7 @@ public class ClassNode extends ColorableNode {
 
     /**
      * Sets the attributes property value.
-     * 
+     *
      * @param newValue the attributes of this class
      */
     public void setAttributes(LineText newValue)
@@ -172,7 +172,7 @@ public class ClassNode extends ColorableNode {
 
     /**
      * Gets the attributes property value.
-     * 
+     *
      * @return the attributes of this class
      */
     public LineText getAttributes()
@@ -182,7 +182,7 @@ public class ClassNode extends ColorableNode {
 
     /**
      * Sets the methods property value.
-     * 
+     *
      * @param newValue the methods of this class
      */
     public void setMethods(LineText newValue)
@@ -192,7 +192,7 @@ public class ClassNode extends ColorableNode {
 
     /**
      * Gets the methods property value.
-     * 
+     *
      * @return the methods of this class
      */
     public LineText getMethods()

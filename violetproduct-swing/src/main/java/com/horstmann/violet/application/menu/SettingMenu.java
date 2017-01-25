@@ -59,13 +59,13 @@ public class SettingMenu extends JMenu {
                                             public void actionPerformed(ActionEvent e) {
                                                 if (changeClassNameJBox.isSelected()) {
 
-                                                    ClassNode.classNameChange = true;
+                                                    ClassNode.startClassNameFromBig = true;
                                                     settingProperties.setSelectedClassNameOption("enabled");
                                                     settingProperties.savePropertiesToFile();
 
                                                 } else {
 
-                                                    ClassNode.classNameChange = false;
+                                                    ClassNode.startClassNameFromBig = false;
                                                     settingProperties.setSelectedClassNameOption("disabled");
                                                     settingProperties.savePropertiesToFile();
                                                 }

@@ -22,7 +22,7 @@ public class SettingProperties {
             loadProperties();
 
             if (getSelectedClassNameOption().equals("enabled")) {
-                ClassNode.classNameChange = true;
+                ClassNode.startClassNameFromBig = true;
             }
         }
 
