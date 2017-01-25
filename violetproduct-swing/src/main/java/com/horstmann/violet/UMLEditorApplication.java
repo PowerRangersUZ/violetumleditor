@@ -44,12 +44,7 @@ import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanFactory
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.plugin.PluginLoader;
-import com.horstmann.violet.framework.theme.BlueAmbianceTheme;
-import com.horstmann.violet.framework.theme.ClassicMetalTheme;
-import com.horstmann.violet.framework.theme.DarkAmbianceTheme;
-import com.horstmann.violet.framework.theme.DarkBlueTheme;
-import com.horstmann.violet.framework.theme.ITheme;
-import com.horstmann.violet.framework.theme.ThemeManager;
+import com.horstmann.violet.framework.theme.*;
 import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
@@ -119,11 +114,13 @@ public class UMLEditorApplication
         ITheme theme2 = new BlueAmbianceTheme();
         ITheme theme3 = new DarkAmbianceTheme();
         ITheme theme4 = new DarkBlueTheme();
+        ITheme theme5 = new BlackOrangeTheme();
         List<ITheme> themeList = new ArrayList<ITheme>();
         themeList.add(theme1);
         themeList.add(theme2);
         themeList.add(theme3);
         themeList.add(theme4);
+        themeList.add(theme5);
         themeManager.setInstalledThemes(themeList);
         themeManager.applyPreferedTheme();
         BeanFactory.getFactory().register(ThemeManager.class, themeManager);
