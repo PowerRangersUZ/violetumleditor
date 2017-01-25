@@ -13,6 +13,10 @@ public class SettingProperties {
     private static final String languageProperties = "language";
     private String selectedLanguage;
 
+    /**
+     * Default constructor
+     *
+     */
     public SettingProperties() {
         if (IsPropertiesFileExist()) {
             loadProperties();
@@ -22,8 +26,9 @@ public class SettingProperties {
                 Locale.setDefault(locale);
             }
 
-
         }
+
+      setSelectedLanguage(Locale.getDefault().getLanguage());
 
     }
 
@@ -68,17 +73,17 @@ public class SettingProperties {
     }
 
     /**
-     * Save properties
+     * Save properties to file
      */
     public void savePropertiesToFile() {
 
         if (IsPropertiesFileExist()) {
             try {
-                Properties props = new Properties();
-                OutputStream out = new FileOutputStream(propertiesFile);
-                props.setProperty(languageProperties, selectedLanguage);
-                props.store(out, "User properties");
-                out.close();
+                Properties properties = new Properties();
+                OutputStream outputStream = new FileOutputStream(propertiesFile);
+                properties.setProperty(languageProperties, selectedLanguage);
+                properties.store(outputStream, "User properties");
+                outputStream.close();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -90,17 +95,17 @@ public class SettingProperties {
     }
 
     /**
-     * Load properties
+     * Load properties from file to variables
      */
     public void loadProperties() {
 
         try {
 
-            Properties props = new Properties();
-            InputStream in = new FileInputStream(propertiesFile );
-            props.load(in);
-            selectedLanguage = props.getProperty(languageProperties);
-            in.close();
+            Properties properties = new Properties();
+            InputStream inputStream = new FileInputStream(propertiesFile );
+            properties.load(inputStream);
+            selectedLanguage = properties.getProperty(languageProperties);
+            inputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

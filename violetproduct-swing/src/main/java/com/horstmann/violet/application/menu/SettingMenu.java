@@ -23,7 +23,6 @@ package com.horstmann.violet.application.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 import javax.swing.*;
 
 import com.horstmann.violet.application.gui.*;
@@ -57,21 +56,19 @@ public class SettingMenu extends JMenu {
     private void createMenu() {
         ButtonGroup group = new ButtonGroup();
 
-        settingProperties.setSelectedLanguage(Locale.getDefault().getLanguage());
-        settingItemMenuLanguage.setIcon(dialogLanguageIcon);
-
-        for (final Language lang : languageManager.getLanguages()) {
-            JCheckBoxMenuItem menuLangSelect = new JCheckBoxMenuItem(lang.getName());
+        settingItemMenuLanguage.setIcon(languageIcon);
+        for (final Language language : languageManager.getLanguages()) {
+            JCheckBoxMenuItem menuLangSelect = new JCheckBoxMenuItem(language.getName());
             group.add(menuLangSelect);
 
-            if (lang.getShortcut().equals(settingProperties.getSelectedLanguage()))
+            if (language.getShortcut().equals(settingProperties.getSelectedLanguage()))
                 menuLangSelect.setSelected(true);
 
             settingItemMenuLanguage.add(menuLangSelect);
             menuLangSelect.addActionListener(new ActionListener() {
                                                  @Override
                                                  public void actionPerformed(ActionEvent e) {
-                                                     settingProperties.setSelectedLanguage(lang.getShortcut());
+                                                     settingProperties.setSelectedLanguage(language.getShortcut());
                                                      settingProperties.savePropertiesToFile();
                                                      languageChangeAlert();
                                                  }
@@ -79,6 +76,7 @@ public class SettingMenu extends JMenu {
             );
 
         }
+
         this.add(settingItemMenuLanguage);
     }
 
@@ -111,9 +109,8 @@ public class SettingMenu extends JMenu {
      */
     private SettingProperties settingProperties = new SettingProperties();
 
-    @ResourceBundleBean(key = "setting.langauge")
+    @ResourceBundleBean(key = "setting.language")
     private JMenu settingItemMenuLanguage;
-
 
     @ResourceBundleBean(key = "dialog.change_laf.title")
     private String changeLanguageDialogTitle;
@@ -121,7 +118,7 @@ public class SettingMenu extends JMenu {
     @ResourceBundleBean(key = "setting.dialog.change_language")
     private String changeLanguageDialogMessage;
 
-    @ResourceBundleBean(key = "setting.active.icon")
-    private ImageIcon dialogLanguageIcon;
+    @ResourceBundleBean(key = "setting.language.active.icon")
+    private ImageIcon languageIcon;
 
 }
