@@ -162,7 +162,7 @@ public class FieldNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         INode endingINode = edge.getEndNode();
         if (edge.getClass().isAssignableFrom(ObjectReferenceEdge.class) && endingINode.getClass().isAssignableFrom(ObjectNode.class))
@@ -185,7 +185,7 @@ public class FieldNode extends ColorableNode
             }
             edge.setStartNode(startingNode);
             edge.setEndNode(endingNode);
-            return getParent().addConnection(edge);
+            return getParent().canConnect(edge);
         }
         return false;
     }

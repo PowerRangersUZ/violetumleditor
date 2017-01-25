@@ -70,7 +70,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     }
     
     @Override
-    public boolean addConnection(IEdge edge) {
+    public boolean canConnect(IEdge edge) {
     	// Self call (loop)
     	INode endingNode = edge.getEndNode();
     	if (endingNode == null) {
@@ -78,7 +78,7 @@ public abstract class ColorableNode extends AbstractNode implements IColorable
     		edge.setEndLocation(edge.getStartLocation());
     	}
     	// Back to default behavior
-    	return super.addConnection(edge);
+    	return super.canConnect(edge);
     }
 
     @Override

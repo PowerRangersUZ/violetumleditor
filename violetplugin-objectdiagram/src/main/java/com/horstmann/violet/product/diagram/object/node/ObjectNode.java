@@ -155,7 +155,7 @@ public class ObjectNode extends ColorableNode
         return ObjectDiagramConstant.OBJECT_DIAGRAM_RESOURCE.getString("tooltip.object_node");
     }
 
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         if (!edge.getClass().isAssignableFrom(AssociationEdge.class))
         {

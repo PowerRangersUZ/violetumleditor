@@ -312,7 +312,7 @@ public abstract class AbstractGraph implements Serializable, Cloneable, IGraph
         e.setEndNode(end);
         e.setEndLocation(endLocation);
         e.setTransitionPoints(transitionPoints);
-        if (null != start && start.addConnection(e))
+        if (null != start && start.canConnect(e))
         {
             e.setId(new Id());
             edges.add(e);

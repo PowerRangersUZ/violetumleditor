@@ -154,13 +154,13 @@ public class NoteNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         if (edge.getStartNode() == edge.getEndNode())
         {
             return false;
         }
-        return super.addConnection(edge);
+        return super.canConnect(edge);
     }
 
     /**
