@@ -13,6 +13,26 @@ import static org.junit.Assert.assertEquals;
 public class ClassNodeTest {
 
 
+
+
+    @Test
+    public void toBigLetterOff() {
+        ClassNode testClassNode = new ClassNode();
+        LineText lineText = new SingleLineText();
+
+        String name = "classTest";
+        lineText.setText(name);
+
+        LineText nameResult = new SingleLineText();
+        nameResult.setText("classTest");
+        ClassNode.startClassNameFromBig = false;
+        testClassNode.setName(lineText);
+
+        if (ClassNode.startClassNameFromBig) {
+            assertEquals(nameResult.toString(), testClassNode.getName().toString());
+        }
+    }
+
     @Test
     public void toBigLetterOn() {
         ClassNode testNode = new ClassNode();
@@ -26,29 +46,11 @@ public class ClassNodeTest {
 
         testNode.setName(lineText);
 
-        testNode.startClassNameFromBig = true;
+        ClassNode.startClassNameFromBig = true;
         testNode.setName(lineText);
 
-        if (testNode.startClassNameFromBig) {
+        if (ClassNode.startClassNameFromBig) {
             assertEquals(nameResult.toString(), testNode.getName().toString());
-        }
-    }
-
-    @Test
-    public void toBigLetterOff() {
-        ClassNode testClassNode = new ClassNode();
-        LineText lineText = new SingleLineText();
-
-        String name = "classTest";
-        lineText.setText(name);
-
-        LineText nameResult = new SingleLineText();
-        nameResult.setText("classTest");
-
-        testClassNode.setName(lineText);
-        ClassNode.startClassNameFromBig = false;
-        if (!ClassNode.startClassNameFromBig) {
-            assertEquals(nameResult.toString(), testClassNode.getName().toString());
         }
     }
 
