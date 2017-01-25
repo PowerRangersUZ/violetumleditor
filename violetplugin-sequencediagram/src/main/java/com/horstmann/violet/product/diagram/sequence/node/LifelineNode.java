@@ -293,7 +293,7 @@ public class LifelineNode extends ColorableNode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         return false;
     }

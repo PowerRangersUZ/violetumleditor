@@ -21,71 +21,86 @@
 
 package com.horstmann.violet.product.diagram.common.node;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-
-import com.horstmann.violet.framework.graphics.content.*;
+import com.horstmann.violet.framework.graphics.content.ContentBackground;
+import com.horstmann.violet.framework.graphics.content.ContentBorder;
+import com.horstmann.violet.framework.graphics.content.ContentInsideShape;
+import com.horstmann.violet.framework.graphics.content.TextContent;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideCustomShape;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleConstant;
 import com.horstmann.violet.framework.theme.ThemeManager;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
+import com.horstmann.violet.product.diagram.property.text.PrefixAndSuffixDecorator;
+import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.SmallSizeDecorator;
 import com.horstmann.violet.workspace.sidebar.colortools.ColorToolsBarPanel;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+
 /**
- * A note node_old in a UML diagram.
- * 
- * FIXME : manage Z order
- * 
- * for (IEdge e : getGraph().getEdges()) { if (e.getStartNode() == this) { INode end = e.getEndNode(); Point2D endPoint = end.getLocation();
- * INode n = getGraph().findNode(endPoint); if (n != end) end.setZ(n.getZ() + 1); } }
- * 
+ * A constraint node in a UML diagram.
  */
-public class NoteNode extends ColorableNode
-{
+public class ConstraintNode extends ColorableNode {
     /**
-     * Construct a note node_old with a default size and color
+     * Construct a constraint node with a default size and color
      */
-    public NoteNode()
-    {
-        super();
-        text = new MultiLineText();
+    public ConstraintNode() {
+        tooltip = ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("constraint_node.tooltip");
+        text = new MultiLineText(textConverter);
         createContentStructure();
     }
 
-    public NoteNode(NoteNode node) throws CloneNotSupportedException
-    {
+    /**
+     * Construct a constaint node by cloning it.
+     * @param node
+     * @throws CloneNotSupportedException
+     */
+    public ConstraintNode(ConstraintNode node) throws CloneNotSupportedException {
         super(node);
+        tooltip = ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("constraint_node.tooltip");
         text = node.text.clone();
         createContentStructure();
     }
 
+    /**
+     * Reconstruction of the text.
+     */
+
     @Override
-    protected void beforeReconstruction()
-    {
+    protected void beforeReconstruction() {
         super.beforeReconstruction();
-        text.reconstruction();
+        text.reconstruction(textConverter);
     }
 
+    /**
+     * Copy the node.
+     * @return Copy of the node.
+     * @throws CloneNotSupportedException
+     */
     @Override
-    protected INode copy() throws CloneNotSupportedException
-    {
-        return new NoteNode(this);
+    protected INode copy() throws CloneNotSupportedException {
+        return new ConstraintNode(this);
     }
 
+    /**
+     * Draw node with a cut out corner.
+     */
+
     @Override
-    protected void createContentStructure()
-    {
+    protected void createContentStructure() {
+        drawNodeWithoutCorner();
+    }
+
+    private void drawNodeWithoutCorner() {
         TextContent textContent = new TextContent(text);
         textContent.setMinHeight(DEFAULT_HEIGHT);
         textContent.setMinWidth(DEFAULT_WIDTH);
 
-        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator()
-        {
+        ContentInsideShape contentInsideShape = new ContentInsideCustomShape(textContent, new ContentInsideCustomShape.ShapeCreator() {
             @Override
             public Shape createShape(double contentWidth, double contentHeight) {
                 GeneralPath path = new GeneralPath();
@@ -103,16 +118,23 @@ public class NoteNode extends ColorableNode
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
 
-        setBackgroundColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBackgroundColor());
-        setBorderColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getBorderColor());
-        setTextColor(ColorToolsBarPanel.PASTEL_YELLOW_ORANCE.getTextColor());
+        setBackgroundColor(ColorToolsBarPanel.DEFAULT_COLOR.getBackgroundColor());
+        setBorderColor(ColorToolsBarPanel.DEFAULT_COLOR.getBorderColor());
+        setTextColor(ColorToolsBarPanel.DEFAULT_COLOR.getTextColor());
     }
 
-    @Override
-    public void draw(Graphics2D graphics)
-    {
-        super.draw(graphics);
+    /**
+     * Draw the corner of node.
+     * @param graphics
+     */
 
+    @Override
+    public void draw(Graphics2D graphics) {
+        super.draw(graphics);
+        drawCorner(graphics);
+    }
+
+    private void drawCorner(Graphics2D graphics) {
         Color oldColor = graphics.getColor();
         GeneralPath fold = new GeneralPath();
         Rectangle2D bounds = getBounds();
@@ -127,71 +149,90 @@ public class NoteNode extends ColorableNode
         graphics.setColor(oldColor);
     }
 
+    /**
+     * Sets the node text color.
+     * @param textColor
+     */
     @Override
-    public void setTextColor(Color textColor)
-    {
+    public void setTextColor(Color textColor) {
         text.setTextColor(textColor);
         super.setTextColor(textColor);
     }
 
+    /**
+     *
+     * @return Tooltip string.
+     */
+
     @Override
-    public String getToolTip()
-    {
-        return ResourceBundleConstant.NODE_AND_EDGE_RESOURCE.getString("note_node.tooltip");
+    public String getToolTip() {
+        return tooltip;
     }
 
-
-
-
-
-
-
+    /**
+     *
+     * Ensures that this kind of node is always on top
+     */
     @Override
-    public int getZ()
-    {
-        // Ensures that this kind of node is always on top
+    public int getZ() {
         return INFINITE_Z_LEVEL;
     }
 
+    /**
+     * Adds connection edge.
+     * @param edge
+     */
+
     @Override
-    public boolean canConnect(IEdge edge)
-    {
-        if (edge.getStartNode() == edge.getEndNode())
-        {
+    public boolean canConnect(IEdge edge) {
+        if (edge.getStartNode() == edge.getEndNode()) {
             return false;
         }
         return super.canConnect(edge);
     }
 
     /**
-     * Gets the value of the text property.
-     * 
      * @return the text inside the note
      */
-    public MultiLineText getText()
-    {
+    public MultiLineText getText() {
         return text;
     }
 
     /**
+     * @return the text with prefix and suffix
+     */
+    private static LineText.Converter textConverter = new LineText.Converter() {
+        @Override
+        public OneLineText toLineString(String text) {
+            OneLineText decoratedText;
+
+            decoratedText = new OneLineText(text);
+            decoratedText = new SmallSizeDecorator(decoratedText);
+            decoratedText = new PrefixAndSuffixDecorator(decoratedText, "{", "}");
+
+            return decoratedText;
+        }
+    };
+
+
+    /**
      * Sets the value of the text property.
-     * 
+     *
      * @param newValue the text inside the note
      */
-    public void setText(MultiLineText newValue)
-    {
+    public void setText(MultiLineText newValue) {
         text = newValue;
     }
 
     /**
      * Kept for compatibility
      */
-    public void setColor(Color newValue)
-    {
+    public void setColor(Color newValue) {
         // Nothing to do
     }
 
     private MultiLineText text;
+    private String tooltip;
 
     private static int DEFAULT_WIDTH = 60;
     private static int DEFAULT_HEIGHT = 40;

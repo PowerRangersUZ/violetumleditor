@@ -329,7 +329,7 @@ public abstract class AbstractNode implements INode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         return edge.getEndNode() != null;
     }

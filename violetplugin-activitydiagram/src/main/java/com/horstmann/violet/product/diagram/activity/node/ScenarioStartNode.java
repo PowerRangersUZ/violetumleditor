@@ -73,7 +73,7 @@ public class ScenarioStartNode extends AbstractNode
     }
 
     @Override
-    public boolean addConnection(IEdge edge)
+    public boolean canConnect(IEdge edge)
     {
         return edge.getEndNode() != null && this != edge.getEndNode();
     }
