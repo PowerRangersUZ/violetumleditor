@@ -104,7 +104,7 @@ public class MainFrame extends JFrame
      */
     private void decorateFrame()
     {
-        setTitle(this.applicationName);
+        setTitle(this.applicationName + " " + this.applicationVersion);
         setIconImage(this.applicationIcon);
     }
 
@@ -337,6 +337,9 @@ public class MainFrame extends JFrame
     
     @ResourceBundleBean(key="app.icon")
     private Image applicationIcon;
+
+    @ResourceBundleBean(key="app.version")
+    private String applicationVersion;
 
     /**
      * All disgram workspaces
