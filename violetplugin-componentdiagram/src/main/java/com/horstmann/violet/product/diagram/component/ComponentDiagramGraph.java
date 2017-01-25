@@ -30,6 +30,7 @@ import com.horstmann.violet.product.diagram.classes.node.BallAndSocketNode;
 import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.product.diagram.classes.node.PackageNode;
 import com.horstmann.violet.product.diagram.common.edge.NoteEdge;
+import com.horstmann.violet.product.diagram.common.node.ConstraintNode;
 import com.horstmann.violet.product.diagram.common.node.NoteNode;
 import com.horstmann.violet.product.diagram.component.node.ComponentNode;
 
@@ -58,7 +59,8 @@ public class ComponentDiagramGraph extends AbstractGraph {
             new ClassNode(),
             new PackageNode(),
             new BallAndSocketNode(),
-            new NoteNode()
+            new NoteNode(),
+            new ConstraintNode()
     ));
 
     /**
