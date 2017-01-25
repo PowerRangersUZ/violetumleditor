@@ -20,7 +20,7 @@
 
 package com.horstmann.violet;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ import java.util.Locale;
 
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
+import com.horstmann.violet.application.help.TipOfTheDayDialog;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -195,6 +196,8 @@ public class UMLEditorApplication
         mainFrame.setVisible(true);
         splashScreen.setVisible(false);
         splashScreen.dispose();
+
+        TipOfTheDayDialog tipDialog = new TipOfTheDayDialog(mainFrame, true);
     }
 
     /**

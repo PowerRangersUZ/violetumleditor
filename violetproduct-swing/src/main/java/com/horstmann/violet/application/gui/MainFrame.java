@@ -39,6 +39,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.horstmann.violet.application.autosave.AutoSave;
 import com.horstmann.violet.application.help.AboutDialog;
+import com.horstmann.violet.application.help.TipOfTheDayDialog;
 import com.horstmann.violet.application.menu.MenuFactory;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
