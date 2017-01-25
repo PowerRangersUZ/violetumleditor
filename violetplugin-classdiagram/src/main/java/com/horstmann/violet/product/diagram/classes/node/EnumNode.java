@@ -3,78 +3,76 @@ package com.horstmann.violet.product.diagram.classes.node;
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
 import com.horstmann.violet.framework.graphics.shape.ContentInsideRectangle;
-import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
-import com.horstmann.violet.product.diagram.property.text.decorator.LargeSizeDecorator;
-import com.horstmann.violet.product.diagram.property.text.decorator.OneLineText;
-import com.horstmann.violet.product.diagram.property.text.decorator.PrefixDecorator;
-import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.classes.ClassDiagramConstant;
+import com.horstmann.violet.product.diagram.common.node.ColorableNode;
 import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.property.text.decorator.*;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
- * A class node in a class diagram.
+ * An interface node in a class diagram.
  */
-public class EnumNode extends ColorableNode
-{
-	/**
-     * Construct a class node with a default size
+public class EnumNode extends ColorableNode {
+    /**
+     * Construct an interface node with a default size and the text <<interface>>.
      */
-    public EnumNode()
-    {
+    private static final int MIN_NAME_HEIGHT = 45;
+    private static final int MIN_WIDTH = 100;
+
+    private transient Separator separator = null;
+
+    private SingleLineText name;
+    private MultiLineText values;
+
+    public EnumNode() {
         super();
         name = new SingleLineText(NAME_CONVERTER);
-        attributes = new MultiLineText();
+        values = new MultiLineText();
         createContentStructure();
     }
 
-    protected EnumNode(EnumNode node) throws CloneNotSupportedException
-    {
+    protected EnumNode(EnumNode node) throws CloneNotSupportedException {
         super(node);
         name = node.name.clone();
-        attributes = node.attributes.clone();
+        values = node.values.clone();
         createContentStructure();
     }
 
     @Override
-    protected void beforeReconstruction()
-    {
+    protected void beforeReconstruction() {
         super.beforeReconstruction();
-
-        if(null == name)
-        {
+        if (null == name) {
             name = new SingleLineText();
         }
-        if(null == attributes)
-        {
-            attributes = new MultiLineText();
+        if (null == values) {
+            values = new MultiLineText();
         }
         name.reconstruction(NAME_CONVERTER);
-        attributes.reconstruction();
+        values.reconstruction();
     }
 
     @Override
-    protected INode copy() throws CloneNotSupportedException
-    {
+    protected INode copy() throws CloneNotSupportedException {
         return new EnumNode(this);
     }
 
     @Override
-    protected void createContentStructure()
-    {
+    protected void createContentStructure() {
         name.setText(name.toEdit());
 
         TextContent nameContent = new TextContent(name);
         nameContent.setMinHeight(MIN_NAME_HEIGHT);
         nameContent.setMinWidth(MIN_WIDTH);
-        TextContent attributesContent = new TextContent(attributes);
+        TextContent methodsContent = new TextContent(values);
 
         VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
-        verticalGroupContent.add(attributesContent);
+        verticalGroupContent.add(methodsContent);
         separator = new Separator.LineSeparator(getBorderColor());
         verticalGroupContent.setSeparator(separator);
 
@@ -83,88 +81,68 @@ public class EnumNode extends ColorableNode
         setBorder(new ContentBorder(contentInsideShape, getBorderColor()));
         setBackground(new ContentBackground(getBorder(), getBackgroundColor()));
         setContent(getBackground());
-
-        setTextColor(super.getTextColor());
     }
 
     @Override
-    public void setBorderColor(Color borderColor)
-    {
-        if(null != separator)
-        {
+    public void setBorderColor(Color borderColor) {
+        if (null != separator) {
             separator.setColor(borderColor);
         }
         super.setBorderColor(borderColor);
     }
 
     @Override
-    public void setTextColor(Color textColor)
-    {
+    public void setTextColor(Color textColor) {
         name.setTextColor(textColor);
-        attributes.setTextColor(textColor);
-        super.setTextColor(textColor);
+        values.setTextColor(textColor);
     }
 
     @Override
-    public String getToolTip()
-    {
+    public String getToolTip() {
         return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.enum_node");
     }
 
     /**
      * Sets the name property value.
-     * 
-     * @param newValue the class name
+     *
+     * @param newValue the interface name
      */
-    public void setName(LineText newValue)
-    {
+    public void setName(LineText newValue) {
         name.setText(newValue);
     }
 
     /**
      * Gets the name property value.
-     * 
-     * @return the class name
+     *
+     * @return the interface name
      */
-    public LineText getName()
-    {
+    public LineText getName() {
         return name;
     }
 
     /**
-     * Sets the attributes property value.
+     * Sets the values property value.
      *
-     * @param newValue the attributes of this class
+     * @param newValue the values of this interface
      */
-    public void setAttributes(LineText newValue)
-    {
-        attributes.setText(newValue);
+    public void setValues(LineText newValue) {
+        values.setText(newValue);
     }
 
     /**
-     * Gets the attributes property value.
+     * Gets the values property value.
      *
-     * @return the attributes of this class
+     * @return the values of this interface
      */
-    public MultiLineText getAttributes()
-    {
-        return attributes;
+    public LineText getValues() {
+        return values;
     }
 
-    private SingleLineText name;
-    private MultiLineText attributes;
-
-    private transient Separator separator;
-
-    private static final int MIN_NAME_HEIGHT = 45;
-    private static final int MIN_WIDTH = 100;
-
-    private static final LineText.Converter NAME_CONVERTER = new LineText.Converter()
-    {
+    private static LineText.Converter NAME_CONVERTER = new LineText.Converter() {
         @Override
-        public OneLineText toLineString(String text)
-        {
-            return new PrefixDecorator( new LargeSizeDecorator(new OneLineText(text)), "<center>«enumeration»</center>");
+        public OneLineText toLineString(String text) {
+            return new PrefixDecorator(new LargeSizeDecorator(new OneLineText(text)), "<center>«enumeration»</center>");
         }
     };
+
 }
