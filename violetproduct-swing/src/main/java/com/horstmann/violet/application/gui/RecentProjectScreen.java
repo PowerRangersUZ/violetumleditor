@@ -4,6 +4,8 @@ import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
@@ -18,6 +20,7 @@ public class RecentProjectScreen extends JFrame{
     public RecentProjectScreen(MainFrame mainFrame)
     {
         ManiocFramework.BeanInjector.getInjector().inject(this);
+        ResourceBundleInjector.getInjector().inject(this);
 
         if (mainFrame != null)
         {
@@ -26,8 +29,10 @@ public class RecentProjectScreen extends JFrame{
         }
     }
 
-    private void createRecentlyProjectsFrame(){
-        final JFrame recentlyProjectsFrame = new JFrame("Ostatnio edytowane projekty");
+    private void createRecentlyProjectsFrame()
+    {
+        final JFrame recentlyProjectsFrame = new JFrame(screenTitle);
+        recentlyProjectsFrame.setIconImage(appIcon);
         recentlyProjectsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         recentlyProjectsFrame.setSize(1000,300);
@@ -79,9 +84,15 @@ public class RecentProjectScreen extends JFrame{
         recentlyProjectsFrame.setVisible(true);
         toFront();
     }
+
     private MainFrame mainFrame;
 
     @ManiocFramework.InjectedBean
     private UserPreferencesService userPreferencesService;
 
+    @ResourceBundleBean(key="recentProjectScreen.title")
+    private String screenTitle;
+
+    @ResourceBundleBean(key="app.icon")
+    private Image appIcon;
 }
