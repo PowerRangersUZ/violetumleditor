@@ -54,9 +54,9 @@ public class RecentProjectScreen extends JFrame{
 
         for (final IFile aFile : userPreferencesService.getRecentFiles())
         {
+
             String name = aFile.getFilename();
             JButton jButton = new JButton(name);
-            jButton.setSize(100, 50);
             jPanel.add(jButton);
             jButton.addActionListener(new ActionListener()
             {
