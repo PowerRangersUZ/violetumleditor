@@ -42,7 +42,9 @@ public class RecentProjectScreen extends JFrame{
         recentlyProjectsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         Dimension mainFrameDimension = Toolkit.getDefaultToolkit().getScreenSize();
         recentlyProjectsFrame.setSize(frameDimension);
-        recentlyProjectsFrame.setLocation(mainFrameDimension.width/2-recentlyProjectsFrame.getSize().width/2, mainFrameDimension.height/2-recentlyProjectsFrame.getSize().height/2);
+        final int CENTER_X = mainFrameDimension.width/2-recentlyProjectsFrame.getSize().width/2;
+        final int CENTER_Y = mainFrameDimension.height/2-recentlyProjectsFrame.getSize().height/2;
+        recentlyProjectsFrame.setLocation(CENTER_X, CENTER_Y);
 
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new GridBagLayout());
