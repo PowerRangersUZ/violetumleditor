@@ -17,7 +17,7 @@ import java.util.List;
  * @author Adrian Bobrowski <adrian071993@gmail.com>
  * @date 16.12.2015
  */
-public abstract class LineText implements Serializable, Cloneable, EditableText
+public abstract class   LineText implements Serializable, Cloneable, EditableText
 {
     public interface Converter
     {

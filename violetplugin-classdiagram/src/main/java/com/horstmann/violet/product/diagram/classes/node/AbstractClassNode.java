@@ -1,7 +1,6 @@
 package com.horstmann.violet.product.diagram.classes.node;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 import com.horstmann.violet.framework.graphics.Separator;
 import com.horstmann.violet.framework.graphics.content.*;
@@ -14,7 +13,6 @@ import com.horstmann.violet.product.diagram.property.text.LineText;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.MultiLineText;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
-import com.horstmann.violet.product.diagram.common.node.PointNode;
 
 /**
  * An abstract class node in a class diagram.
@@ -45,11 +43,11 @@ public class AbstractClassNode extends ColorableNode
     protected void beforeReconstruction()
     {
         super.beforeReconstruction();
-        if(null == name)
+        if(name == null)
         {
             name = new SingleLineText();
         }
-        if(null == methods)
+        if(methods == null)
         {
             methods = new MultiLineText();
         }
@@ -69,13 +67,14 @@ public class AbstractClassNode extends ColorableNode
         name.setText(name.toEdit());
 
         TextContent nameContent = new TextContent(name);
-        nameContent.setMinHeight(MIN_NAME_HEIGHT);
-        nameContent.setMinWidth(MIN_WIDTH);
         TextContent methodsContent = new TextContent(methods);
+
+        setTextContentWidthAndHeight(nameContent);
 
         VerticalLayout verticalGroupContent = new VerticalLayout();
         verticalGroupContent.add(nameContent);
         verticalGroupContent.add(methodsContent);
+
         separator = new Separator.LineSeparator(getBorderColor());
         verticalGroupContent.setSeparator(separator);
 
@@ -86,10 +85,15 @@ public class AbstractClassNode extends ColorableNode
         setContent(getBackground());
     }
 
+    private void setTextContentWidthAndHeight(TextContent nameContent){
+        nameContent.setMinHeight(MIN_NAME_HEIGHT);
+        nameContent.setMinWidth(MIN_WIDTH);
+    }
+
     @Override
     public void setBorderColor(Color borderColor)
     {
-        if(separator != null)
+        if(null != separator)
         {
             separator.setColor(borderColor);
         }
@@ -107,16 +111,6 @@ public class AbstractClassNode extends ColorableNode
     public String getToolTip()
     {
         return ClassDiagramConstant.CLASS_DIAGRAM_RESOURCE.getString("tooltip.abstract_class_node");
-    }
-
-    @Override
-    public boolean addChild(INode node, Point2D point)
-    {
-        if (node instanceof PointNode)
-        {
-            return true;
-        }
-        return false;
     }
 
     /**
