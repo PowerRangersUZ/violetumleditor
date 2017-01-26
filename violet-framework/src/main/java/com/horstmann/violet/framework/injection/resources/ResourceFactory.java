@@ -21,6 +21,8 @@
 
 package com.horstmann.violet.framework.injection.resources;
 
+import com.horstmann.violet.framework.help.shortcuts.ShortcutsManager;
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Image;
@@ -112,6 +114,20 @@ public class ResourceFactory
         try
         {
             accelerator = bundle.getString(prefix + ".accelerator");
+
+            String acceleratorKey = "";
+            acceleratorKey = bundle.getString(prefix + ".text");
+
+            ShortcutsManager shortcutsManager = new ShortcutsManager();
+            String userShortcut = shortcutsManager.getShortcut(acceleratorKey);
+
+            if(userShortcut != null)
+            {
+                accelerator = shortcutsManager.getShortcut(acceleratorKey);
+                accelerator = accelerator.replace("CTRL", "control");
+
+            }
+
             menuItem.setAccelerator(KeyStroke.getKeyStroke(accelerator));
         }
         catch (MissingResourceException exception)
