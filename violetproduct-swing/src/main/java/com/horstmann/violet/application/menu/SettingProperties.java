@@ -15,7 +15,7 @@ public class SettingProperties {
     private static final String languageProperties = "language";
     private String selectedLanguage;
     private static final String classNameProperties = "StartFromBig";
-    private String selectedClassName = "disabled";
+    private String selectedClassNameOption = "disabled";
 
     /**
      * Default constructor
@@ -28,8 +28,8 @@ public class SettingProperties {
                 Locale.setDefault(locale);
             }
 
-            if (getSelectedClassName().equals("enabled")) {
-                ClassNode.nameChange = true;
+            if (getSelectedClassNameOption().equals("enabled")) {
+                ClassNode.startClassNameFromBig = true;
             }
 
         }
@@ -38,6 +38,7 @@ public class SettingProperties {
     }
 
     /**
+     * <<<<<<< HEAD
      * Get selectedLanguage
      *
      * @return selectedLanguage
@@ -52,8 +53,8 @@ public class SettingProperties {
      * @return selectedClassName
      */
 
-    public String getSelectedClassName() {
-        return selectedClassName;
+    public String getSelectedClassNameOption() {
+        return selectedClassNameOption;
     }
 
     /**
@@ -66,12 +67,13 @@ public class SettingProperties {
     }
 
     /**
-     * Set selectedClassName
+     * Set classname option
      *
-     * @param selectedClassName
+     * @param selectedClassNameOption
      */
-    public void setSelectedClassName(String selectedClassName) {
-        this.selectedClassName = selectedClassName;
+
+    public void setSelectedClassNameOption(String selectedClassNameOption) {
+        this.selectedClassNameOption = selectedClassNameOption;
     }
 
     /**
@@ -111,6 +113,8 @@ public class SettingProperties {
                 OutputStream outputStream = new FileOutputStream(propertiesFile);
                 properties.setProperty(languageProperties, selectedLanguage);
                 properties.store(outputStream, "User properties");
+                properties.setProperty(classNameProperties, selectedClassNameOption);
+                properties.store(outputStream, "User properties");
                 outputStream.close();
 
             } catch (Exception e) {
@@ -133,6 +137,7 @@ public class SettingProperties {
             InputStream inputStream = new FileInputStream(propertiesFile);
             properties.load(inputStream);
             selectedLanguage = properties.getProperty(languageProperties);
+            selectedClassNameOption = properties.getProperty(classNameProperties);
             inputStream.close();
 
         } catch (Exception e) {

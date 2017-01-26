@@ -55,57 +55,56 @@ public class SettingMenu extends JMenu {
      * Initialize the menu
      */
     private void createMenu() {
-
         ButtonGroup group = new ButtonGroup();
-        settingItemMenuLanguage.setIcon(languageIcon);
 
+        settingItemMenuLanguage.setIcon(languageIcon);
         for (final Language language : languageManager.getLanguages()) {
             JCheckBoxMenuItem menuLangSelect = new JCheckBoxMenuItem(language.getName());
             group.add(menuLangSelect);
 
-            if (language.getShortcut().equals(settingProperties.getSelectedLanguage())) {
-
+            if (language.getShortcut().equals(settingProperties.getSelectedLanguage()))
                 menuLangSelect.setSelected(true);
-            }
 
             settingItemMenuLanguage.add(menuLangSelect);
             menuLangSelect.addActionListener(new ActionListener() {
                                                  @Override
                                                  public void actionPerformed(ActionEvent e) {
-
                                                      settingProperties.setSelectedLanguage(language.getShortcut());
                                                      settingProperties.savePropertiesToFile();
                                                      languageChangeAlert();
                                                  }
                                              }
             );
+
         }
 
-        if (settingProperties.getSelectedClassName().equals("enabled")) {
+        changeClassNameJBox.addActionListener(new ActionListener() {
+                                                  @Override
+                                                  public void actionPerformed(ActionEvent e) {
+                                                      if (changeClassNameJBox.isSelected()) {
 
-            classNameJBox.setSelected(true);
-        }
+                                                          ClassNode.startClassNameFromBig = true;
+                                                          settingProperties.setSelectedClassNameOption("enabled");
+                                                          settingProperties.savePropertiesToFile();
 
-        classNameJBox.addActionListener(new ActionListener() {
-                                            @Override
-                                            public void actionPerformed(ActionEvent e) {
-                                                if (classNameJBox.isSelected()) {
+                                                      } else {
 
-                                                    ClassNode.nameChange = true;
-                                                    settingProperties.setSelectedClassName("enabled");
-                                                    settingProperties.savePropertiesToFile();
-                                                } else {
-
-                                                    ClassNode.nameChange = false;
-                                                    settingProperties.setSelectedClassName("disabled");
-                                                    settingProperties.savePropertiesToFile();
-                                                }
-                                            }
-                                        }
+                                                          ClassNode.startClassNameFromBig = false;
+                                                          settingProperties.setSelectedClassNameOption("disabled");
+                                                          settingProperties.savePropertiesToFile();
+                                                      }
+                                                  }
+                                              }
         );
 
+        if (settingProperties.getSelectedClassNameOption().equals("enabled")) {
+
+            changeClassNameJBox.setSelected(true);
+        }
+
+        this.add(changeClassNameJBox);
+
         this.add(settingItemMenuLanguage);
-        this.add(classNameJBox);
     }
 
     /**
@@ -150,6 +149,5 @@ public class SettingMenu extends JMenu {
     private ImageIcon languageIcon;
 
     @ResourceBundleBean(key = "setting.dialog.name.class")
-    private JCheckBoxMenuItem classNameJBox;
-
+    private JCheckBoxMenuItem changeClassNameJBox;
 }
