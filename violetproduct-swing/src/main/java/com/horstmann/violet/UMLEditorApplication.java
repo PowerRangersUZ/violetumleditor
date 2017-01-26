@@ -130,7 +130,7 @@ public class UMLEditorApplication
         themeManager.applyPreferedTheme();
 
         LanguageManager languageManager = new LanguageManager();
-        languageManager.applyPreferedTheme();
+        languageManager.applyPreferedLanguage();
 
         DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.INTERNAL);
         BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);

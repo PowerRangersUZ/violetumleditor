@@ -68,7 +68,7 @@ public class LanguageManager
      * Applies prefered language.
      *
      */
-    public void applyPreferedTheme()
+    public void applyPreferedLanguage()
     {
         String languageName = getPreferedLanguage();
         switchToLanguage(languageName);
@@ -85,7 +85,7 @@ public class LanguageManager
     }
 
     /**
-     * Switch to a specific theme
+     * Switch to a specific language
      *
      * @param languageName
      */
