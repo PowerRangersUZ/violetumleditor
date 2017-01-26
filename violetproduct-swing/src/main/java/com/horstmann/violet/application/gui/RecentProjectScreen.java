@@ -34,7 +34,7 @@ public class RecentProjectScreen extends JFrame{
         final JFrame recentlyProjectsFrame = new JFrame(screenTitle);
 
         final int SCREEN_WIDTH = 1000;
-        final int SCREEN_HEIGHT = 300;
+        final int SCREEN_HEIGHT = 100;
 
         Dimension frameDimension = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
 
