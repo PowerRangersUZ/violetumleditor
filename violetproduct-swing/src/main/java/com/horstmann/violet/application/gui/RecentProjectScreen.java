@@ -33,7 +33,7 @@ public class RecentProjectScreen extends JFrame{
     {
         final JFrame recentlyProjectsFrame = new JFrame(screenTitle);
 
-        final int SCREEN_WIDTH = 1000;
+        final int SCREEN_WIDTH = 600;
         final int SCREEN_HEIGHT = 100;
 
         Dimension frameDimension = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -74,9 +74,7 @@ public class RecentProjectScreen extends JFrame{
                     }
                     catch (Exception e)
                     {
-                        System.err.println("Unable to open file " + aFile.getFilename() + "from location " + aFile.getDirectory());
                         userPreferencesService.removeOpenedFile(aFile);
-                        System.err.println("Removed from user preferences!");
                     }finally {
                         setEnabled(true);
                         toFront();
