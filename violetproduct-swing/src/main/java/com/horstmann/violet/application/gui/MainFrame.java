@@ -84,6 +84,8 @@ public class MainFrame extends JFrame
         createMenuBar();
         getContentPane().add(this.getMainPanel());
         startAutoSave();
+        new RecentProjectScreen(this);
+
     }
 
     /**
