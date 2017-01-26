@@ -32,11 +32,17 @@ public class RecentProjectScreen extends JFrame{
     private void createRecentlyProjectsFrame()
     {
         final JFrame recentlyProjectsFrame = new JFrame(screenTitle);
+
+        final int SCREEN_WIDTH = 1000;
+        final int SCREEN_HEIGHT = 300;
+
+        Dimension frameDimension = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
+
         recentlyProjectsFrame.setIconImage(appIcon);
         recentlyProjectsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        recentlyProjectsFrame.setSize(1000,300);
-        recentlyProjectsFrame.setLocation(dim.width/2-recentlyProjectsFrame.getSize().width/2, dim.height/2-recentlyProjectsFrame.getSize().height/2);
+        Dimension mainFrameDimension = Toolkit.getDefaultToolkit().getScreenSize();
+        recentlyProjectsFrame.setSize(frameDimension);
+        recentlyProjectsFrame.setLocation(mainFrameDimension.width/2-recentlyProjectsFrame.getSize().width/2, mainFrameDimension.height/2-recentlyProjectsFrame.getSize().height/2);
 
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new GridBagLayout());
@@ -77,7 +83,6 @@ public class RecentProjectScreen extends JFrame{
                     }
                 }
             });
-
         }
 
         recentlyProjectsFrame.setResizable(false);
