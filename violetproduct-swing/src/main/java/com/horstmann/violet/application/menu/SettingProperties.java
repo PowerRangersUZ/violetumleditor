@@ -38,7 +38,6 @@ public class SettingProperties {
     }
 
     /**
-     * <<<<<<< HEAD
      * Get selectedLanguage
      *
      * @return selectedLanguage
@@ -112,7 +111,6 @@ public class SettingProperties {
                 Properties properties = new Properties();
                 OutputStream outputStream = new FileOutputStream(propertiesFile);
                 properties.setProperty(languageProperties, selectedLanguage);
-                properties.store(outputStream, "User properties");
                 properties.setProperty(classNameProperties, selectedClassNameOption);
                 properties.store(outputStream, "User properties");
                 outputStream.close();
