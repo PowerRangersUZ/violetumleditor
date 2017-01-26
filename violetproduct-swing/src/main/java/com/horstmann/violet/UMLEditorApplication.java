@@ -179,6 +179,7 @@ public class UMLEditorApplication
             }
         }
         // Open files
+        /*
         for (IFile aFile : lastSessionFiles)
         {
             try
@@ -193,7 +194,7 @@ public class UMLEditorApplication
                 userPreferencesService.removeOpenedFile(aFile);
                 System.err.println("Removed from user preferences!");
             }
-        }
+        }*/
         IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
         mainFrame.setActiveWorkspace(activeFile);
         mainFrame.setVisible(true);
