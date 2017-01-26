@@ -18,6 +18,7 @@ import com.horstmann.violet.framework.file.LocalFile;
 import com.horstmann.violet.framework.file.persistence.IFilePersistenceService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.file.persistence.JFileReader;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
 import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
@@ -29,18 +30,20 @@ import com.horstmann.violet.workspace.Workspace;
 
 /**
  * Violet's auto save
- * 
+ *
  * @author Pawel Majka
- * 
+ *
  */
 public class AutoSave implements ActionListener {
 
 	private MainFrame mainFrame;
 	private Timer saveTimer;
+	public static boolean isFileUsnaved = false;
+	public static IGraphFile graphFile = null;
 
-    private final int second = 1000;
-    private final int saveInterval = 60 * second;
-    private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML";
+	private final int second = 100;
+	private final int saveInterval = 60 * second;
+	private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML";
 
 	public AutoSave(MainFrame mainFrame)
 	{
@@ -88,12 +91,13 @@ public class AutoSave implements ActionListener {
 					if (in != null)
 					{
 						IGraph graph = this.filePersistenceService.read(in);
-						IGraphFile graphFile = new GraphFile(autoSaveFile);
-					
+						graphFile = new GraphFile(autoSaveFile);
+
 						IWorkspace workspace = new Workspace(graphFile);
 						mainFrame.addWorkspace(workspace);
-					
-						file.delete();
+						in.close();
+
+						isFileUsnaved = true;
 					}
 				} catch (IOException e) {
 					file.delete();
@@ -113,14 +117,16 @@ public class AutoSave implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	    for (IWorkspace workspace: mainFrame.getWorkspaceList())
-	    {
-	    	IGraphFile graphFile = workspace.getGraphFile();
-	    	if (graphFile.isSaveRequired())
-	    	{
-	    		graphFile.autoSave();
-	    	}
-	    }
+		for (IWorkspace workspace: mainFrame.getWorkspaceList())
+		{
+			IGraphFile graphFile = workspace.getGraphFile();
+			if (graphFile.isSaveRequired())
+			{
+				graphFile.autoSave();
+			}
+			graphFile.autoSave();
+
+		}
 	}
 
 	@InjectedBean
