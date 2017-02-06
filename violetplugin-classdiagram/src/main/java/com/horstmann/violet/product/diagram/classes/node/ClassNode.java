@@ -127,16 +127,19 @@ public class ClassNode extends ColorableNode
      * 
      * @param newValue the class name
      */
-    public void setName(LineText newValue)
-    {
-        name.setText(newValue);
-    }
+    public static boolean capitalizeLetter = false;
 
-    /**
-     * Gets the name property value.
-     * 
-     * @return the class name
-     */
+
+    public void setName(LineText newValue) {
+        if(capitalizeLetter) {
+            if (getName().toString().length() > 0) {
+                String newName = getName().toString().substring(0, 1).toUpperCase() + getName().toString().substring(1);
+                name.setText(newName);
+            }
+        } else {
+            name.setText(newValue);
+        }
+    }
     public LineText getName()
     {
         return name;

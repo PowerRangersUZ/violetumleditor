@@ -98,11 +98,25 @@ public class MenuFactory
         }
         return this.documentMenu;
     }
+    public SettingMenu getSettingMenu(MainFrame editorFrame)
+    {
+
+        if (this.settingMenu == null)
+        {
+            this.settingMenu = new SettingMenu(editorFrame);
+        }
+
+        return this.settingMenu;
+
+
+    }
+
 
     private EditMenu editMenu;
     private FileMenu fileMenu;
     private HelpMenu helpMenu;
     private ViewMenu viewMenu;
     private DocumentMenu documentMenu;
+    private SettingMenu settingMenu;
 
 }
