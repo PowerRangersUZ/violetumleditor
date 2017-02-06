@@ -109,7 +109,7 @@ public class UMLEditorApplication {
      * Initialize SettingProperties
      */
     private void loadPropertiesFromFile() {
-        SettingProperties settingProperties = new SettingProperties();
+         new SettingProperties();
     }
 
     /**

@@ -11,8 +11,8 @@ import java.util.Properties;
  */
 public class SettingProperties {
 
-    private static final File propertiesFile = new File(System.getProperty("user.home") + File.separator + "user.properties");
-    private static final String languageProperties = "language";
+    private static final File PROPERTIES_FILE = new File(System.getProperty("user.home") + File.separator + "user.properties");
+    private static final String LANGUAGE_PROPERTIES = "language";
     private String selectedLanguage;
     private static final String classNameProperties = "StartFromBig";
     private String selectedClassNameOption = "disabled";
@@ -80,8 +80,8 @@ public class SettingProperties {
      *
      * @return boolean
      */
-    public boolean IsPropertiesFileExist() {
-        return propertiesFile.exists() && !propertiesFile.isDirectory();
+    private boolean IsPropertiesFileExist() {
+        return PROPERTIES_FILE.exists() && !PROPERTIES_FILE.isDirectory();
 
     }
 
@@ -91,7 +91,7 @@ public class SettingProperties {
     private void createPropertiesFile() {
         try {
 
-            OutputStream out = new FileOutputStream(propertiesFile);
+            OutputStream out = new FileOutputStream(PROPERTIES_FILE);
             out.close();
             savePropertiesToFile();
 
@@ -109,13 +109,17 @@ public class SettingProperties {
             try {
 
                 Properties properties = new Properties();
-                OutputStream outputStream = new FileOutputStream(propertiesFile);
-                properties.setProperty(languageProperties, selectedLanguage);
+                OutputStream outputStream = new FileOutputStream(PROPERTIES_FILE);
+                properties.setProperty(LANGUAGE_PROPERTIES, selectedLanguage);
                 properties.setProperty(classNameProperties, selectedClassNameOption);
                 properties.store(outputStream, "User properties");
                 outputStream.close();
 
-            } catch (Exception e) {
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         } else
@@ -127,14 +131,14 @@ public class SettingProperties {
     /**
      * Load properties from file to variables
      */
-    public void loadProperties() {
+    private void loadProperties() {
 
         try {
 
             Properties properties = new Properties();
-            InputStream inputStream = new FileInputStream(propertiesFile);
+            InputStream inputStream = new FileInputStream(PROPERTIES_FILE);
             properties.load(inputStream);
-            selectedLanguage = properties.getProperty(languageProperties);
+            selectedLanguage = properties.getProperty(LANGUAGE_PROPERTIES);
             selectedClassNameOption = properties.getProperty(classNameProperties);
             inputStream.close();
 

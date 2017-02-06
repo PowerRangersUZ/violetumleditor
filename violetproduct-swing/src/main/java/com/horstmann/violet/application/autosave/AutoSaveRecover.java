@@ -36,10 +36,10 @@ public class AutoSaveRecover extends JFrame {
     private String saveRecoverFrameTitle;
 
     @ResourceBundleBean(key = "dialog.autosave.recover")
-    private String buttonRecovery;
+    private JButton buttonRecovery;
 
     @ResourceBundleBean(key = "dialog.autosave.startnew")
-    private String buttonNew;
+    private JButton buttonNew;
 
     /**
      * Open autosave frame
@@ -62,7 +62,7 @@ public class AutoSaveRecover extends JFrame {
         this.pack();
         this.setVisible(true);
 
-        setLocation(this);
+        setLocation();
     }
 
     /**
@@ -73,11 +73,10 @@ public class AutoSaveRecover extends JFrame {
     private JPanel getButtonPanel() {
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 
-        JButton buttonRecovery = new JButton(this.buttonRecovery);
         buttonRecovery.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 loadAutoSaveFile();
                 dispose();
@@ -85,8 +84,9 @@ public class AutoSaveRecover extends JFrame {
             }
         });
 
-        JButton buttonNew = new JButton(this.buttonNew);
+
         buttonNew.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 removeAutoSaveFile();
                 dispose();
@@ -104,7 +104,7 @@ public class AutoSaveRecover extends JFrame {
      *
      * @param jFrame JFrame
      */
-    private void setLocation(JFrame jFrame) {
+    private void setLocation() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 
         int w = this.getSize().width;

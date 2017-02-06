@@ -31,7 +31,7 @@ public class LanguageManager {
     /**
      * Load languages and add to list
      */
-    public void loadAvailableLanguage() {
+    private void loadAvailableLanguage() {
 
 
         String[] languages = Locale.getISOLanguages();
