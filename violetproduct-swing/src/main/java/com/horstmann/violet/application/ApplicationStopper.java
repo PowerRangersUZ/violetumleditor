@@ -34,17 +34,17 @@ public class ApplicationStopper
         boolean ok = isItReadyToExit(mainFrame);
         if (ok)
         {
-        	for (IWorkspace workspace: mainFrame.getWorkspaceList())
-        	{
-        		workspace.getGraphFile().removeBackup();
-        	}
+            for (IWorkspace workspace: mainFrame.getWorkspaceList())
+            {
+                workspace.getGraphFile().removeBackup();
+            }
             System.exit(0);
         }
     }
 
     /**
      * Asks user to save changes before exit.
-     * 
+     *
      * @return true is all is saved either false
      */
     private boolean isItReadyToExit(MainFrame mainFrame)
@@ -54,20 +54,25 @@ public class ApplicationStopper
         for (IWorkspace workspace: workspaceList)
         {
             IGraphFile graphFile = workspace.getGraphFile();
-        	if (graphFile.isSaveRequired())
+            if (graphFile.isSaveRequired())
             {
                 dirtyWorkspaceList.add(workspace);
             }
         }
+
         int unsavedCount = dirtyWorkspaceList.size();
         IWorkspace activeWorkspace = mainFrame.getActiveWorkspace();
+        if (save)
+        {
+            unsavedCount++;
+        }
         if (unsavedCount > 0)
         {
             // ask user if it is ok to close
             String message = MessageFormat.format(this.dialogExitMessage, new Object[]
-            {
-                new Integer(unsavedCount)
-            });
+                    {
+                            new Integer(unsavedCount)
+                    });
             JOptionPane optionPane = new JOptionPane(message, JOptionPane.CLOSED_OPTION, JOptionPane.YES_NO_CANCEL_OPTION,
                     this.dialogExitIcon);
             dialogFactory.showDialog(optionPane, this.dialogExitTitle, true);
@@ -122,5 +127,7 @@ public class ApplicationStopper
 
     @InjectedBean
     private UserPreferencesService userPreferencesService;
+
+    public static boolean save = false;
 
 }

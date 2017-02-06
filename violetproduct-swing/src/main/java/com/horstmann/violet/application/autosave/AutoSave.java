@@ -10,6 +10,7 @@ import java.text.MessageFormat;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
+import com.horstmann.violet.application.ApplicationStopper;
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -29,18 +30,18 @@ import com.horstmann.violet.workspace.Workspace;
 
 /**
  * Violet's auto save
- * 
+ *
  * @author Pawel Majka
- * 
+ *
  */
 public class AutoSave implements ActionListener {
 
 	private MainFrame mainFrame;
 	private Timer saveTimer;
 
-    private final int second = 1000;
-    private final int saveInterval = 60 * second;
-    private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML";
+	private final int second = 1000;
+	private final int saveInterval = 60 * second;
+	private final String autoSaveDirectory = System.getProperty("user.home") + File.separator + "VioletUML";
 
 	public AutoSave(MainFrame mainFrame)
 	{
@@ -89,11 +90,11 @@ public class AutoSave implements ActionListener {
 					{
 						IGraph graph = this.filePersistenceService.read(in);
 						IGraphFile graphFile = new GraphFile(autoSaveFile);
-					
+
 						IWorkspace workspace = new Workspace(graphFile);
 						mainFrame.addWorkspace(workspace);
-					
-						file.delete();
+						ApplicationStopper.save = true;
+						in.close();
 					}
 				} catch (IOException e) {
 					file.delete();
@@ -113,14 +114,14 @@ public class AutoSave implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	    for (IWorkspace workspace: mainFrame.getWorkspaceList())
-	    {
-	    	IGraphFile graphFile = workspace.getGraphFile();
-	    	if (graphFile.isSaveRequired())
-	    	{
-	    		graphFile.autoSave();
-	    	}
-	    }
+		for (IWorkspace workspace: mainFrame.getWorkspaceList())
+		{
+			IGraphFile graphFile = workspace.getGraphFile();
+			if (graphFile.isSaveRequired())
+			{
+				graphFile.autoSave();
+			}
+		}
 	}
 
 	@InjectedBean
