@@ -22,6 +22,7 @@ package com.horstmann.violet;
 
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.Locale;
 
 import com.horstmann.violet.application.gui.MainFrame;
 import com.horstmann.violet.application.gui.SplashScreen;
+import com.horstmann.violet.application.help.TipOfTheDay;
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -66,11 +68,10 @@ public class UMLEditorApplication
 
     /**
      * Standalone application entry point
-     * 
+     *
      * @param args (could contains file to open)
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws IOException {
         for (int i = 0; i < args.length; i++)
         {
             String arg = args[i];
@@ -99,16 +100,15 @@ public class UMLEditorApplication
 
     /**
      * Default constructor
-     * 
+     *
      * @param filesToOpen
      */
-    private UMLEditorApplication(String[] filesToOpen)
-    {
+    private UMLEditorApplication(String[] filesToOpen) throws IOException {
         initBeanFactory();
         BeanInjector.getInjector().inject(this);
         createDefaultWorkspace(filesToOpen);
     }
-    
+
     private static void initBeanFactory() {
         IUserPreferencesDao userPreferencesDao = new DefaultUserPreferencesDao();
         BeanFactory.getFactory().register(IUserPreferencesDao.class, userPreferencesDao);
@@ -130,10 +130,10 @@ public class UMLEditorApplication
 
         DialogFactory dialogFactory = new DialogFactory(DialogFactoryMode.INTERNAL);
         BeanFactory.getFactory().register(DialogFactory.class, dialogFactory);
-        
+
         IFilePersistenceService filePersistenceService = new XHTMLPersistenceService();
         BeanFactory.getFactory().register(IFilePersistenceService.class, filePersistenceService);
-        
+
         IFileChooserService fileChooserService = new JFileChooserService();
         BeanFactory.getFactory().register(IFileChooserService.class, fileChooserService);
     }
@@ -147,8 +147,7 @@ public class UMLEditorApplication
      * + command line args<br>
      * + last workspace restore<br>
      */
-    private void createDefaultWorkspace(String[] filesToOpen)
-    {
+    private void createDefaultWorkspace(String[] filesToOpen) throws IOException {
         installPlugins();
         SplashScreen splashScreen = new SplashScreen();
         splashScreen.setVisible(true);
@@ -195,6 +194,8 @@ public class UMLEditorApplication
         mainFrame.setVisible(true);
         splashScreen.setVisible(false);
         splashScreen.dispose();
+        TipOfTheDay tipOfTheDay = new TipOfTheDay();
+
     }
 
     /**
@@ -215,6 +216,8 @@ public class UMLEditorApplication
 
     @InjectedBean
     private UserPreferencesService userPreferencesService;
+
+
 
 
 }
