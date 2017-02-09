@@ -98,9 +98,24 @@ public class LanguageManager
                 Locale selectedDLanguage = language.getLanguage();
                 Locale.setDefault(selectedDLanguage);
                 return;
-            }else
+            }
+        }
+
+        Locale.setDefault(Locale.ENGLISH);
+        throw new IllegalArgumentException("No language named: "+languageName);
+
+
+        for(Language language : this.languageList)
+        {
+            if (languageName.equals(language.getName()))
+            {
+                Locale selectedDLanguage = language.getLanguage();
+                Locale.setDefault(selectedDLanguage);
+                return;
+            } else
             {
                 Locale.setDefault(Locale.ENGLISH);
+
             }
         }
     }
