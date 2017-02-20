@@ -3,6 +3,8 @@ package com.horstmann.violet.workspace.editorpart.behavior;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import com.horstmann.violet.product.diagram.abstracts.IColorable;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
@@ -39,10 +41,15 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
     public void onMouseClicked(MouseEvent event)
     {
         this.editorPart.getSwingComponent().setCursor(this.defaultCursor);
-        if (event.getClickCount() > 1)
+
+        if (event.getClickCount() == 2  && currentColorChoice != null) {
+            changeColorAfterDoubleCLick();
+        }
+        if (event.getClickCount() > 2 )
         {
             return;
         }
+
         if (event.getButton() != MouseEvent.BUTTON1)
         {
             return;
@@ -51,12 +58,13 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
         {
             return;
         }
+
         double zoom = this.workspace.getEditorPart().getZoomFactor();
         Point2D mouseLocation = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
         INode node = this.workspace.getGraphFile().getGraph().findNode(mouseLocation);
         if (node != null && IColorable.class.isInstance(node)) {
-        	IColorable colorableElement = (IColorable) node;
-        	this.behaviorManager.fireBeforeChangingColorOnElement(colorableElement);
+            IColorable colorableElement = (IColorable) node;
+            this.behaviorManager.fireBeforeChangingColorOnElement(colorableElement);
             colorableElement.setBackgroundColor(this.currentColorChoice.getBackgroundColor());
             colorableElement.setBorderColor(this.currentColorChoice.getBorderColor());
             colorableElement.setTextColor(this.currentColorChoice.getTextColor());
@@ -65,10 +73,10 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
             this.colorChoiceBar.resetSelection();
             return;
         }
-    	IEdge edge = this.workspace.getGraphFile().getGraph().findEdge(mouseLocation);
-    	if (edge != null && IColorable.class.isInstance(edge)) {
-    		IColorable colorableElement = (IColorable) edge;
-        	this.behaviorManager.fireBeforeChangingColorOnElement(colorableElement);
+        IEdge edge = this.workspace.getGraphFile().getGraph().findEdge(mouseLocation);
+        if (edge != null && IColorable.class.isInstance(edge)) {
+            IColorable colorableElement = (IColorable) edge;
+            this.behaviorManager.fireBeforeChangingColorOnElement(colorableElement);
             colorableElement.setBackgroundColor(this.currentColorChoice.getBackgroundColor());
             colorableElement.setBorderColor(this.currentColorChoice.getBorderColor());
             colorableElement.setTextColor(this.currentColorChoice.getBorderColor());
@@ -76,9 +84,21 @@ public class ColorizeBehavior extends AbstractEditorPartBehavior
             this.currentColorChoice = null;
             this.colorChoiceBar.resetSelection();
             return;
-        }	
+        }
     }
+    public void changeColorAfterDoubleCLick(){
+        Collection<INode> allNodes;
+        Collection<IColorable> tmpcoll = new ArrayList<IColorable>();
+        allNodes = this.workspace.getGraphFile().getGraph().getAllNodes();
+        for (INode node: allNodes) {
+            tmpcoll.add((IColorable) node);
+        }
 
+        for (IColorable it : tmpcoll) {
+            it.setBackgroundColor(this.currentColorChoice.getBorderColor());
+        }
+        
+    }
     @Override
     public void onMouseDragged(MouseEvent event)
     {
